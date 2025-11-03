@@ -10,6 +10,24 @@ Una aplicación de registro de traslados que ayuda a usuarios en Tepic, Nayarit 
 **Complexity Level**: Light Application (multiple features with basic state)
 Esta es una utilidad enfocada con características distintas (registro, historial, análisis, configuración) que requiere gestión de estado persistente pero evita integraciones complejas o sistemas de cuentas.
 
+## Deployment Strategy
+
+### Mobile Deployment (Android)
+- **Platform**: Capacitor para convertir la web app en aplicación Android nativa
+- **Distribution**: APK directo para instalación en dispositivos personales
+- **Build Process**: 
+  - Desarrollo local con Android Studio
+  - Opcionalmente GitHub Actions para CI/CD automático
+- **Requirements**:
+  - Android 7.0+ (API 24+) compatible
+  - ~10MB tamaño de app estimado
+  - Permisos: ninguno especial requerido (solo almacenamiento local)
+- **Key Files**:
+  - `capacitor.config.ts` - Configuración de Capacitor
+  - `DEPLOYMENT.md` - Guía completa de despliegue
+  - `QUICK_COMMANDS.md` - Comandos rápidos de desarrollo
+  - `GITHUB_ACTIONS.md` - Automatización opcional con CI/CD
+
 ## Essential Features
 
 ### Registro Rápido de Traslado

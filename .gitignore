@@ -32,3 +32,17 @@ pids
 .devcontainer/
 
 .spark-workbench-id
+
+# Android / Capacitor
+android/
+ios/
+*.keystore
+*.jks
+local.properties
+.gradle/
+.idea/
+*.iml
+*.hprof
+.cxx/
+.externalNativeBuild/
+google-services.json
