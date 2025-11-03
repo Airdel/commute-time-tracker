@@ -1,19 +1,31 @@
 import { useKV } from '@github/spark/hooks';
 import { useState } from 'react';
-import { Commute, TimerState } from '@/types/commute';
+import { Commute, TimerState, Route, CommuteType } from '@/types/commute';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LoggerTab } from '@/components/LoggerTab';
 import { HistoryTab } from '@/components/HistoryTab';
 import { StatsTab } from '@/components/StatsTab';
+import { SettingsTab } from '@/components/SettingsTab';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Bus } from '@phosphor-icons/react';
 import { Toaster } from '@/components/ui/sonner';
 
+const DEFAULT_ROUTES: Route[] = [
+  { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true },
+];
+
+const DEFAULT_TYPES: CommuteType[] = [
+  { id: 'to-work', name: 'Hacia el trabajo', icon: 'arrow-right', description: 'Traslado matutino al trabajo' },
+  { id: 'from-work', name: 'Desde el trabajo', icon: 'arrow-left', description: 'Traslado vespertino a casa' },
+];
+
 function App() {
   const [commutes, setCommutes] = useKV<Commute[]>('commutes', []);
+  const [routes] = useKV<Route[]>('routes', DEFAULT_ROUTES);
+  const [commuteTypes] = useKV<CommuteType[]>('commute-types', DEFAULT_TYPES);
   const [timerState, setTimerState] = useKV<TimerState>('timer-state', {
     isActive: false,
-    direction: null,
+    type: null,
     startTime: null,
   });
   const [activeTab, setActiveTab] = useState('logger');
@@ -57,17 +69,21 @@ function App() {
 
       <main className="container mx-auto px-4 py-6 md:px-6 md:py-8 max-w-6xl">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
             <TabsTrigger value="logger">Registro</TabsTrigger>
             <TabsTrigger value="history">Historial</TabsTrigger>
             <TabsTrigger value="stats">Estadísticas</TabsTrigger>
+            <TabsTrigger value="settings">Ajustes</TabsTrigger>
           </TabsList>
 
           <TabsContent value="logger" className="mt-0">
             <LoggerTab
-              timerState={timerState || { isActive: false, direction: null, startTime: null }}
+              timerState={timerState || { isActive: false, type: null, startTime: null }}
               setTimerState={setTimerState}
               onAddCommute={addCommute}
+              routes={routes || DEFAULT_ROUTES}
+              commuteTypes={commuteTypes || DEFAULT_TYPES}
+              commutes={commutes || []}
             />
           </TabsContent>
 
@@ -76,11 +92,21 @@ function App() {
               commutes={commutes || []}
               onUpdateCommute={updateCommute}
               onDeleteCommute={deleteCommute}
+              routes={routes || DEFAULT_ROUTES}
+              commuteTypes={commuteTypes || DEFAULT_TYPES}
             />
           </TabsContent>
 
           <TabsContent value="stats" className="mt-0">
-            <StatsTab commutes={commutes || []} />
+            <StatsTab 
+              commutes={commutes || []} 
+              commuteTypes={commuteTypes || DEFAULT_TYPES}
+              routes={routes || DEFAULT_ROUTES}
+            />
+          </TabsContent>
+
+          <TabsContent value="settings" className="mt-0">
+            <SettingsTab />
           </TabsContent>
         </Tabs>
       </main>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Commute } from '@/types/commute';
+import { Commute, Route, CommuteType } from '@/types/commute';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -7,9 +7,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { ArrowRight, ArrowLeft, Clock, Pencil, Trash, Bus } from '@phosphor-icons/react';
+import { Clock, Pencil, Trash, Bus, MapPin } from '@phosphor-icons/react';
 import { formatDuration, formatTime, formatDate, calculateDuration } from '@/lib/time-utils';
 import { toast } from 'sonner';
 
@@ -17,13 +18,16 @@ interface HistoryTabProps {
   commutes: Commute[];
   onUpdateCommute: (id: string, updates: Partial<Commute>) => void;
   onDeleteCommute: (id: string) => void;
+  routes: Route[];
+  commuteTypes: CommuteType[];
 }
 
-export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: HistoryTabProps) {
+export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute, routes, commuteTypes }: HistoryTabProps) {
   const [selectedCommute, setSelectedCommute] = useState<Commute | null>(null);
   const [editDialog, setEditDialog] = useState(false);
   const [editForm, setEditForm] = useState({
-    direction: 'to-work' as 'to-work' | 'from-work',
+    type: 'to-work',
+    routeId: '',
     departureTime: '',
     arrivalTime: '',
     notes: '',
@@ -31,7 +35,8 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
 
   const openEditDialog = (commute: Commute) => {
     setEditForm({
-      direction: commute.direction,
+      type: commute.type,
+      routeId: commute.routeId || '',
       departureTime: new Date(commute.departureTime).toISOString().slice(0, 16),
       arrivalTime: new Date(commute.arrivalTime).toISOString().slice(0, 16),
       notes: commute.notes || '',
@@ -56,7 +61,8 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
     }
 
     onUpdateCommute(selectedCommute.id, {
-      direction: editForm.direction,
+      type: editForm.type,
+      routeId: editForm.routeId || undefined,
       departureTime: editForm.departureTime,
       arrivalTime: editForm.arrivalTime,
       duration,
@@ -102,6 +108,15 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
     return groups;
   }, {} as Record<string, Commute[]>);
 
+  const getCommuteTypeName = (typeId: string) => {
+    return commuteTypes.find(t => t.id === typeId)?.name || typeId;
+  };
+
+  const getRoute = (routeId?: string) => {
+    if (!routeId) return null;
+    return routes.find(r => r.id === routeId);
+  };
+
   return (
     <div className="space-y-6">
       <Card className="p-6">
@@ -120,56 +135,69 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
                 </div>
 
                 <div className="space-y-3">
-                  {dateCommutes.map((commute) => (
-                    <Card key={commute.id} className="p-4 hover:shadow-md transition-shadow">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Badge variant={commute.direction === 'to-work' ? 'default' : 'secondary'}>
-                              {commute.direction === 'to-work' ? (
-                                <><ArrowRight className="mr-1" weight="bold" size={14} /> Hacia el trabajo</>
-                              ) : (
-                                <><ArrowLeft className="mr-1" weight="bold" size={14} /> Desde el trabajo</>
+                  {dateCommutes.map((commute) => {
+                    const route = getRoute(commute.routeId);
+                    return (
+                      <Card key={commute.id} className="p-4 hover:shadow-md transition-shadow">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2 flex-wrap">
+                              <Badge variant="default">
+                                {getCommuteTypeName(commute.type)}
+                              </Badge>
+                              <Badge variant="outline" className="gap-1">
+                                <Clock size={14} weight="bold" />
+                                {formatDuration(commute.duration)}
+                              </Badge>
+                              {route && (
+                                <Badge
+                                  variant="secondary"
+                                  className="gap-1"
+                                  style={{
+                                    backgroundColor: `${route.color}20`,
+                                    color: route.color,
+                                    borderColor: route.color,
+                                  }}
+                                >
+                                  <MapPin size={14} weight="fill" />
+                                  {route.name}
+                                </Badge>
                               )}
-                            </Badge>
-                            <Badge variant="outline" className="gap-1">
-                              <Clock size={14} weight="bold" />
-                              {formatDuration(commute.duration)}
-                            </Badge>
+                            </div>
+
+                            <div className="text-sm text-muted-foreground mb-1">
+                              {formatTime(commute.departureTime)} → {formatTime(commute.arrivalTime)}
+                            </div>
+
+                            {commute.notes && (
+                              <p className="text-sm text-foreground mt-2 line-clamp-2">
+                                {commute.notes}
+                              </p>
+                            )}
                           </div>
 
-                          <div className="text-sm text-muted-foreground mb-1">
-                            {formatTime(commute.departureTime)} → {formatTime(commute.arrivalTime)}
+                          <div className="flex gap-1">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => openEditDialog(commute)}
+                              className="h-8 w-8"
+                            >
+                              <Pencil size={16} />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleDelete(commute)}
+                              className="h-8 w-8 text-destructive hover:text-destructive"
+                            >
+                              <Trash size={16} />
+                            </Button>
                           </div>
-
-                          {commute.notes && (
-                            <p className="text-sm text-foreground mt-2 line-clamp-2">
-                              {commute.notes}
-                            </p>
-                          )}
                         </div>
-
-                        <div className="flex gap-1">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => openEditDialog(commute)}
-                            className="h-8 w-8"
-                          >
-                            <Pencil size={16} />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleDelete(commute)}
-                            className="h-8 w-8 text-destructive hover:text-destructive"
-                          >
-                            <Trash size={16} />
-                          </Button>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
+                      </Card>
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -185,27 +213,41 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
 
           <div className="space-y-4 mt-4">
             <div className="space-y-2">
-              <Label>Dirección</Label>
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  type="button"
-                  variant={editForm.direction === 'to-work' ? 'default' : 'outline'}
-                  onClick={() => setEditForm({ ...editForm, direction: 'to-work' })}
-                  className="gap-2"
-                >
-                  <ArrowRight weight="bold" size={18} />
-                  Hacia el trabajo
-                </Button>
-                <Button
-                  type="button"
-                  variant={editForm.direction === 'from-work' ? 'default' : 'outline'}
-                  onClick={() => setEditForm({ ...editForm, direction: 'from-work' })}
-                  className="gap-2"
-                >
-                  <ArrowLeft weight="bold" size={18} />
-                  Desde el trabajo
-                </Button>
-              </div>
+              <Label htmlFor="edit-type">Tipo de traslado</Label>
+              <Select value={editForm.type} onValueChange={(value) => setEditForm({ ...editForm, type: value })}>
+                <SelectTrigger id="edit-type">
+                  <SelectValue placeholder="Selecciona tipo" />
+                </SelectTrigger>
+                <SelectContent>
+                  {commuteTypes.map((type) => (
+                    <SelectItem key={type.id} value={type.id}>
+                      {type.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="edit-route">Ruta</Label>
+              <Select value={editForm.routeId} onValueChange={(value) => setEditForm({ ...editForm, routeId: value })}>
+                <SelectTrigger id="edit-route">
+                  <SelectValue placeholder="Selecciona ruta" />
+                </SelectTrigger>
+                <SelectContent>
+                  {routes.map((route) => (
+                    <SelectItem key={route.id} value={route.id}>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: route.color }}
+                        />
+                        {route.name}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
