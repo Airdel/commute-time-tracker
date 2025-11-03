@@ -17,9 +17,9 @@ export function StatsTab({ commutes }: StatsTabProps) {
             <ChartBar size={40} className="text-muted-foreground" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold mb-2">Not Enough Data</h3>
+            <h3 className="text-xl font-semibold mb-2">Datos insuficientes</h3>
             <p className="text-muted-foreground max-w-md">
-              Log at least 3 commutes to see your statistics and patterns.
+              Registra al menos 3 traslados para ver tus estadísticas y patrones.
             </p>
           </div>
         </div>
@@ -76,12 +76,12 @@ export function StatsTab({ commutes }: StatsTabProps) {
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
               <Clock size={20} className="text-primary" weight="bold" />
             </div>
-            <h3 className="font-semibold">Overall Average</h3>
+            <h3 className="font-semibold">Promedio general</h3>
           </div>
           {overallStats && (
             <div>
               <div className="text-3xl font-bold mb-1">{formatDuration(overallStats.avg)}</div>
-              <p className="text-sm text-muted-foreground">{overallStats.count} total trips</p>
+              <p className="text-sm text-muted-foreground">{overallStats.count} viajes totales</p>
             </div>
           )}
         </Card>
@@ -91,15 +91,15 @@ export function StatsTab({ commutes }: StatsTabProps) {
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
               <ArrowRight size={20} className="text-primary" weight="bold" />
             </div>
-            <h3 className="font-semibold">To Work</h3>
+            <h3 className="font-semibold">Hacia el trabajo</h3>
           </div>
           {toWorkStats ? (
             <div>
               <div className="text-3xl font-bold mb-1">{formatDuration(toWorkStats.avg)}</div>
-              <p className="text-sm text-muted-foreground">{toWorkStats.count} trips</p>
+              <p className="text-sm text-muted-foreground">{toWorkStats.count} viajes</p>
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No data yet</p>
+            <p className="text-sm text-muted-foreground">Sin datos aún</p>
           )}
         </Card>
 
@@ -108,15 +108,15 @@ export function StatsTab({ commutes }: StatsTabProps) {
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
               <ArrowLeft size={20} className="text-primary" weight="bold" />
             </div>
-            <h3 className="font-semibold">From Work</h3>
+            <h3 className="font-semibold">Desde el trabajo</h3>
           </div>
           {fromWorkStats ? (
             <div>
               <div className="text-3xl font-bold mb-1">{formatDuration(fromWorkStats.avg)}</div>
-              <p className="text-sm text-muted-foreground">{fromWorkStats.count} trips</p>
+              <p className="text-sm text-muted-foreground">{fromWorkStats.count} viajes</p>
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No data yet</p>
+            <p className="text-sm text-muted-foreground">Sin datos aún</p>
           )}
         </Card>
       </div>
@@ -124,16 +124,16 @@ export function StatsTab({ commutes }: StatsTabProps) {
       {toWorkStats && (
         <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold">To Work Insights</h3>
+            <h3 className="text-lg font-semibold">Resumen hacia el trabajo</h3>
             <Badge variant="secondary">
               <ArrowRight size={14} weight="bold" className="mr-1" />
-              {toWorkStats.count} trips
+              {toWorkStats.count} viajes
             </Badge>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Fastest</div>
+              <div className="text-sm text-muted-foreground mb-1">Más rápido</div>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-semibold text-green-600">
                   {formatDuration(toWorkStats.min)}
@@ -142,7 +142,7 @@ export function StatsTab({ commutes }: StatsTabProps) {
               </div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Slowest</div>
+              <div className="text-sm text-muted-foreground mb-1">Más lento</div>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-semibold text-orange-600">
                   {formatDuration(toWorkStats.max)}
@@ -151,15 +151,15 @@ export function StatsTab({ commutes }: StatsTabProps) {
               </div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Last 30 Days</div>
+              <div className="text-sm text-muted-foreground mb-1">Últimos 30 días</div>
               <div className="text-2xl font-semibold">
-                {recentToWork.length} trips
+                {recentToWork.length} viajes
               </div>
             </div>
           </div>
 
           <div>
-            <div className="text-sm font-medium mb-3">Recent Commutes</div>
+            <div className="text-sm font-medium mb-3">Traslados recientes</div>
             <div className="flex items-end gap-2 h-32">
               {toWorkChartData.map((commute, idx) => (
                 <div key={commute.id} className="flex-1 flex flex-col justify-end items-center gap-1">
@@ -181,16 +181,16 @@ export function StatsTab({ commutes }: StatsTabProps) {
       {fromWorkStats && (
         <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold">From Work Insights</h3>
+            <h3 className="text-lg font-semibold">Resumen desde el trabajo</h3>
             <Badge variant="secondary">
               <ArrowLeft size={14} weight="bold" className="mr-1" />
-              {fromWorkStats.count} trips
+              {fromWorkStats.count} viajes
             </Badge>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Fastest</div>
+              <div className="text-sm text-muted-foreground mb-1">Más rápido</div>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-semibold text-green-600">
                   {formatDuration(fromWorkStats.min)}
@@ -199,7 +199,7 @@ export function StatsTab({ commutes }: StatsTabProps) {
               </div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Slowest</div>
+              <div className="text-sm text-muted-foreground mb-1">Más lento</div>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-semibold text-orange-600">
                   {formatDuration(fromWorkStats.max)}
@@ -208,15 +208,15 @@ export function StatsTab({ commutes }: StatsTabProps) {
               </div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Last 30 Days</div>
+              <div className="text-sm text-muted-foreground mb-1">Últimos 30 días</div>
               <div className="text-2xl font-semibold">
-                {recentFromWork.length} trips
+                {recentFromWork.length} viajes
               </div>
             </div>
           </div>
 
           <div>
-            <div className="text-sm font-medium mb-3">Recent Commutes</div>
+            <div className="text-sm font-medium mb-3">Traslados recientes</div>
             <div className="flex items-end gap-2 h-32">
               {fromWorkChartData.map((commute, idx) => (
                 <div key={commute.id} className="flex-1 flex flex-col justify-end items-center gap-1">

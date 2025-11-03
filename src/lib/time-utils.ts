@@ -17,7 +17,7 @@ export function calculateDuration(departure: string, arrival: string): number {
 
 export function formatTime(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleTimeString('en-US', { 
+  return date.toLocaleTimeString('es-MX', { 
     hour: 'numeric', 
     minute: '2-digit',
     hour12: true 
@@ -31,12 +31,12 @@ export function formatDate(dateString: string): string {
   yesterday.setDate(yesterday.getDate() - 1);
   
   if (date.toDateString() === today.toDateString()) {
-    return 'Today';
+    return 'Hoy';
   } else if (date.toDateString() === yesterday.toDateString()) {
-    return 'Yesterday';
+    return 'Ayer';
   }
   
-  return date.toLocaleDateString('en-US', { 
+  return date.toLocaleDateString('es-MX', { 
     month: 'short', 
     day: 'numeric',
     year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined

@@ -50,7 +50,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
       startTime: new Date().toISOString(),
     });
     setElapsedTime(0);
-    toast.success(`Timer started for ${direction === 'to-work' ? 'commute to work' : 'commute from work'}`);
+    toast.success(`Cronómetro iniciado para ${direction === 'to-work' ? 'ir al trabajo' : 'regresar del trabajo'}`);
   };
 
   const stopTimer = () => {
@@ -59,7 +59,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
     const duration = calculateDuration(timerState.startTime, new Date().toISOString());
     
     if (duration > 180) {
-      if (!confirm(`This commute is ${formatDuration(duration)} long. Are you sure?`)) {
+      if (!confirm(`Este traslado duró ${formatDuration(duration)}. ¿Estás seguro?`)) {
         return;
       }
     }
@@ -80,7 +80,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
       startTime: null,
     });
     setElapsedTime(0);
-    toast.success('Commute logged successfully!');
+    toast.success('¡Traslado registrado exitosamente!');
   };
 
   const openManualDialog = () => {
@@ -97,14 +97,14 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
 
   const handleManualSubmit = () => {
     if (!manualForm.departureTime || !manualForm.arrivalTime) {
-      toast.error('Please fill in both departure and arrival times');
+      toast.error('Por favor completa la hora de salida y llegada');
       return;
     }
 
     const duration = calculateDuration(manualForm.departureTime, manualForm.arrivalTime);
     
     if (duration <= 0) {
-      toast.error('Arrival time must be after departure time');
+      toast.error('La hora de llegada debe ser después de la salida');
       return;
     }
 
@@ -120,7 +120,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
 
     onAddCommute(commute);
     setShowManualDialog(false);
-    toast.success('Commute logged successfully!');
+    toast.success('¡Traslado registrado exitosamente!');
   };
 
   const formatElapsedTime = (seconds: number) => {
@@ -141,9 +141,9 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
           <div className="flex flex-col items-center gap-6">
             <Badge variant="secondary" className="text-base px-4 py-2">
               {timerState.direction === 'to-work' ? (
-                <><ArrowRight className="mr-2" weight="bold" size={18} /> To Work</>
+                <><ArrowRight className="mr-2" weight="bold" size={18} /> Hacia el trabajo</>
               ) : (
-                <><ArrowLeft className="mr-2" weight="bold" size={18} /> From Work</>
+                <><ArrowLeft className="mr-2" weight="bold" size={18} /> Desde el trabajo</>
               )}
             </Badge>
 
@@ -153,7 +153,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
                   <div className="text-4xl md:text-5xl font-semibold tabular-nums text-foreground">
                     {formatElapsedTime(elapsedTime)}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-2">Elapsed Time</div>
+                  <div className="text-sm text-muted-foreground mt-2">Tiempo transcurrido</div>
                 </div>
               </div>
             </div>
@@ -165,7 +165,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
               className="w-full max-w-xs gap-2"
             >
               <Stop weight="fill" size={20} />
-              End Trip
+              Terminar viaje
             </Button>
           </div>
         </Card>
@@ -174,8 +174,8 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
           <Card className="p-6 md:p-8">
             <div className="flex flex-col items-center gap-6">
               <div className="text-center">
-                <h2 className="text-xl md:text-2xl font-semibold mb-2">Start Your Commute</h2>
-                <p className="text-muted-foreground">Tap a button to begin timing your trip</p>
+                <h2 className="text-xl md:text-2xl font-semibold mb-2">Inicia tu traslado</h2>
+                <p className="text-muted-foreground">Presiona un botón para comenzar a cronometrar</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
@@ -186,8 +186,8 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
                 >
                   <Play weight="fill" size={24} />
                   <div className="flex flex-col items-start">
-                    <span>To Work</span>
-                    <span className="text-xs opacity-80 font-normal">Start morning commute</span>
+                    <span>Hacia el trabajo</span>
+                    <span className="text-xs opacity-80 font-normal">Iniciar traslado matutino</span>
                   </div>
                 </Button>
 
@@ -198,8 +198,8 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
                 >
                   <Play weight="fill" size={24} />
                   <div className="flex flex-col items-start">
-                    <span>From Work</span>
-                    <span className="text-xs opacity-80 font-normal">Start evening commute</span>
+                    <span>Desde el trabajo</span>
+                    <span className="text-xs opacity-80 font-normal">Iniciar traslado vespertino</span>
                   </div>
                 </Button>
               </div>
@@ -209,14 +209,14 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
           <Card className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <h3 className="text-lg font-semibold mb-1">Manual Entry</h3>
+                <h3 className="text-lg font-semibold mb-1">Entrada manual</h3>
                 <p className="text-sm text-muted-foreground">
-                  Log a past commute or enter times manually
+                  Registra un traslado pasado o ingresa los horarios manualmente
                 </p>
               </div>
               <Button variant="outline" onClick={openManualDialog} className="gap-2">
                 <Plus size={20} weight="bold" />
-                Add Commute
+                Agregar traslado
               </Button>
             </div>
           </Card>
@@ -226,12 +226,12 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
       <Dialog open={showManualDialog} onOpenChange={setShowManualDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Log Commute Manually</DialogTitle>
+            <DialogTitle>Registrar traslado manualmente</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4 mt-4">
             <div className="space-y-2">
-              <Label>Direction</Label>
+              <Label>Dirección</Label>
               <div className="grid grid-cols-2 gap-2">
                 <Button
                   type="button"
@@ -240,7 +240,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
                   className="gap-2"
                 >
                   <ArrowRight weight="bold" size={18} />
-                  To Work
+                  Hacia el trabajo
                 </Button>
                 <Button
                   type="button"
@@ -249,13 +249,13 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
                   className="gap-2"
                 >
                   <ArrowLeft weight="bold" size={18} />
-                  From Work
+                  Desde el trabajo
                 </Button>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="departure-time">Departure Time</Label>
+              <Label htmlFor="departure-time">Hora de salida</Label>
               <Input
                 id="departure-time"
                 type="datetime-local"
@@ -265,7 +265,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="arrival-time">Arrival Time</Label>
+              <Label htmlFor="arrival-time">Hora de llegada</Label>
               <Input
                 id="arrival-time"
                 type="datetime-local"
@@ -275,10 +275,10 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes">Notes (Optional)</Label>
+              <Label htmlFor="notes">Notas (Opcional)</Label>
               <Textarea
                 id="notes"
-                placeholder="Bus number, delays, traffic conditions..."
+                placeholder="Número de camión, retrasos, condiciones del tráfico..."
                 value={manualForm.notes}
                 onChange={(e) => setManualForm({ ...manualForm, notes: e.target.value })}
                 rows={3}
@@ -287,10 +287,10 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute }: LoggerTab
 
             <div className="flex gap-2 pt-4">
               <Button variant="outline" onClick={() => setShowManualDialog(false)} className="flex-1">
-                Cancel
+                Cancelar
               </Button>
               <Button onClick={handleManualSubmit} className="flex-1">
-                Save Commute
+                Guardar traslado
               </Button>
             </div>
           </div>

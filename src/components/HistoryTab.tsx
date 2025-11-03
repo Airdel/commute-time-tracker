@@ -44,14 +44,14 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
     if (!selectedCommute) return;
 
     if (!editForm.departureTime || !editForm.arrivalTime) {
-      toast.error('Please fill in both departure and arrival times');
+      toast.error('Por favor completa la hora de salida y llegada');
       return;
     }
 
     const duration = calculateDuration(editForm.departureTime, editForm.arrivalTime);
     
     if (duration <= 0) {
-      toast.error('Arrival time must be after departure time');
+      toast.error('La hora de llegada debe ser después de la salida');
       return;
     }
 
@@ -65,13 +65,13 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
 
     setEditDialog(false);
     setSelectedCommute(null);
-    toast.success('Commute updated successfully!');
+    toast.success('¡Traslado actualizado exitosamente!');
   };
 
   const handleDelete = (commute: Commute) => {
-    if (confirm('Are you sure you want to delete this commute?')) {
+    if (confirm('¿Estás seguro de que quieres eliminar este traslado?')) {
       onDeleteCommute(commute.id);
-      toast.success('Commute deleted');
+      toast.success('Traslado eliminado');
     }
   };
 
@@ -83,9 +83,9 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
             <Bus size={40} className="text-muted-foreground" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold mb-2">No Commutes Yet</h3>
+            <h3 className="text-xl font-semibold mb-2">Sin traslados aún</h3>
             <p className="text-muted-foreground max-w-md">
-              Start tracking your commutes by using the timer or adding them manually in the Logger tab.
+              Comienza a registrar tus traslados usando el cronómetro o agregándolos manualmente en la pestaña Registro.
             </p>
           </div>
         </div>
@@ -106,8 +106,8 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
     <div className="space-y-6">
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Commute History</h2>
-          <Badge variant="secondary">{commutes.length} trips</Badge>
+          <h2 className="text-xl font-semibold">Historial de traslados</h2>
+          <Badge variant="secondary">{commutes.length} viajes</Badge>
         </div>
 
         <ScrollArea className="h-[600px] pr-4">
@@ -127,9 +127,9 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
                           <div className="flex items-center gap-2 mb-2">
                             <Badge variant={commute.direction === 'to-work' ? 'default' : 'secondary'}>
                               {commute.direction === 'to-work' ? (
-                                <><ArrowRight className="mr-1" weight="bold" size={14} /> To Work</>
+                                <><ArrowRight className="mr-1" weight="bold" size={14} /> Hacia el trabajo</>
                               ) : (
-                                <><ArrowLeft className="mr-1" weight="bold" size={14} /> From Work</>
+                                <><ArrowLeft className="mr-1" weight="bold" size={14} /> Desde el trabajo</>
                               )}
                             </Badge>
                             <Badge variant="outline" className="gap-1">
@@ -180,12 +180,12 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
       <Dialog open={editDialog} onOpenChange={setEditDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Commute</DialogTitle>
+            <DialogTitle>Editar traslado</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4 mt-4">
             <div className="space-y-2">
-              <Label>Direction</Label>
+              <Label>Dirección</Label>
               <div className="grid grid-cols-2 gap-2">
                 <Button
                   type="button"
@@ -194,7 +194,7 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
                   className="gap-2"
                 >
                   <ArrowRight weight="bold" size={18} />
-                  To Work
+                  Hacia el trabajo
                 </Button>
                 <Button
                   type="button"
@@ -203,13 +203,13 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
                   className="gap-2"
                 >
                   <ArrowLeft weight="bold" size={18} />
-                  From Work
+                  Desde el trabajo
                 </Button>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="edit-departure-time">Departure Time</Label>
+              <Label htmlFor="edit-departure-time">Hora de salida</Label>
               <Input
                 id="edit-departure-time"
                 type="datetime-local"
@@ -219,7 +219,7 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="edit-arrival-time">Arrival Time</Label>
+              <Label htmlFor="edit-arrival-time">Hora de llegada</Label>
               <Input
                 id="edit-arrival-time"
                 type="datetime-local"
@@ -229,10 +229,10 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="edit-notes">Notes (Optional)</Label>
+              <Label htmlFor="edit-notes">Notas (Opcional)</Label>
               <Textarea
                 id="edit-notes"
-                placeholder="Bus number, delays, traffic conditions..."
+                placeholder="Número de camión, retrasos, condiciones del tráfico..."
                 value={editForm.notes}
                 onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
                 rows={3}
@@ -241,10 +241,10 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute }: Histo
 
             <div className="flex gap-2 pt-4">
               <Button variant="outline" onClick={() => setEditDialog(false)} className="flex-1">
-                Cancel
+                Cancelar
               </Button>
               <Button onClick={handleUpdate} className="flex-1">
-                Save Changes
+                Guardar cambios
               </Button>
             </div>
           </div>
