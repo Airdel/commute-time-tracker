@@ -12,21 +12,30 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 
 ## Deployment Strategy
 
-### Mobile Deployment (Android)
-- **Platform**: Capacitor para convertir la web app en aplicación Android nativa
-- **Distribution**: APK directo para instalación en dispositivos personales
+### PWA Deployment (Progressive Web App)
+- **Platform**: PWA nativa instalable desde navegador (reemplaza Capacitor)
+- **Distribution**: Acceso directo desde navegador web con opción de instalar como app
+- **Ventajas sobre Capacitor**:
+  - ✅ Sin problemas de sincronización entre dispositivos
+  - ✅ Actualizaciones automáticas instantáneas
+  - ✅ No requiere compilar APK para cada actualización
+  - ✅ Funciona en Android, iOS y Desktop desde el mismo código
+  - ✅ Instalable directamente desde el navegador
+  - ✅ Sincronización automática de datos en tiempo real
 - **Build Process**: 
-  - Desarrollo local con Android Studio
-  - Opcionalmente GitHub Actions para CI/CD automático
+  - Build estático con Vite
+  - Deploy a GitHub Pages o servidor web con HTTPS
+  - Service Worker maneja caché y funcionamiento offline
 - **Requirements**:
-  - Android 7.0+ (API 24+) compatible
-  - ~10MB tamaño de app estimado
-  - Permisos: ninguno especial requerido (solo almacenamiento local)
+  - Navegador moderno con soporte PWA (Chrome, Edge, Safari 11.1+)
+  - HTTPS para instalación (GitHub Pages incluido)
+  - ~2-5MB tamaño de caché inicial
+  - Permisos: ninguno especial requerido
 - **Key Files**:
-  - `capacitor.config.ts` - Configuración de Capacitor
-  - `DEPLOYMENT.md` - Guía completa de despliegue
-  - `QUICK_COMMANDS.md` - Comandos rápidos de desarrollo
-  - `GITHUB_ACTIONS.md` - Automatización opcional con CI/CD
+  - `public/manifest.json` - Configuración de PWA
+  - `public/sw.js` - Service Worker para caché y offline
+  - `PWA_GUIDE.md` - Guía completa de instalación y uso
+  - `index.html` - Incluye registro de Service Worker y manifest
 
 ## Essential Features
 
