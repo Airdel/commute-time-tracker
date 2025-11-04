@@ -7,7 +7,23 @@ import { HARDCODED_USER } from '@/lib/user-config';
 export function SyncIndicator() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [isSyncing, setIsSyncing] = useState(false);
-  const user = HARDCODED_USER;
+  const [user, setUser] = useState<UserInfo | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    try {
+      const userInfo = await window.spark.user();
+      setUser(userInfo);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setAuthChecked(true);
+    }
+  };
 
   useEffect(() => {
     const handleOnline = () => {
@@ -31,6 +47,28 @@ export function SyncIndicator() {
       window.removeEventListener('offline', handleOffline);
     };
   }, [user]);
+
+  if (!authChecked) {
+    return null;
+  }
+
+  if (!user) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Badge variant="outline" className="gap-1.5 border-destructive/50 text-destructive cursor-help">
+              <SignIn size={14} weight="bold" />
+              <span className="text-xs">Sin sesión</span>
+            </Badge>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p className="text-xs">Inicia sesión en Ajustes para sincronizar entre dispositivos</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 
   if (!isOnline) {
     return (
