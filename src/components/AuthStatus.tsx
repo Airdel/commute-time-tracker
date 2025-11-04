@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { SignIn, SignOut, GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
+import { GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
 
 interface UserInfo {
   login: string;
@@ -36,16 +36,6 @@ export function AuthStatus() {
     }
   };
 
-  const handleLogin = () => {
-    window.location.href = '/api/auth/login';
-  };
-
-  const handleLogout = () => {
-    if (confirm('¿Estás seguro que deseas cerrar sesión? Tus datos permanecerán seguros y se sincronizarán cuando vuelvas a iniciar sesión.')) {
-      window.location.href = '/api/auth/logout';
-    }
-  };
-
   if (loading) {
     return (
       <Card className="p-4 border border-border">
@@ -65,23 +55,30 @@ export function AuthStatus() {
       <Card className="p-4 border border-border">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <Warning size={20} weight="fill" className="text-destructive" />
-            <Badge variant="destructive" className="text-xs">
+            <Warning size={20} weight="fill" className="text-muted-foreground" />
+            <Badge variant="secondary" className="text-xs">
               No autenticado
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground">
-            Inicia sesión con tu cuenta de GitHub para sincronizar tus datos entre dispositivos y mantener un respaldo seguro en la nube.
+            Esta aplicación utiliza tu cuenta de GitHub para sincronizar tus datos automáticamente entre dispositivos.
           </p>
-          <div className="flex gap-2">
-            <Button onClick={handleLogin} variant="default" size="sm" className="gap-2 flex-1">
-              <SignIn size={20} weight="bold" />
-              Iniciar sesión con GitHub
-            </Button>
-            <Button onClick={checkAuth} variant="outline" size="sm" className="gap-2">
-              Reintentar
-            </Button>
+          <div className="p-3 bg-muted/50 rounded-lg">
+            <p className="text-sm font-semibold mb-2">Para usar la app con sincronización:</p>
+            <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
+              <li>Accede a través de GitHub Spark</li>
+              <li>La autenticación se realiza automáticamente</li>
+              <li>Tus datos se sincronizarán en todos tus dispositivos</li>
+            </ol>
           </div>
+          <div className="p-3 bg-accent/10 rounded-lg border border-accent/20">
+            <p className="text-sm text-foreground">
+              <strong>💡 Modo local:</strong> Puedes usar la app sin autenticarte, pero tus datos solo se guardarán en este dispositivo.
+            </p>
+          </div>
+          <Button onClick={checkAuth} variant="outline" size="sm" className="gap-2">
+            Verificar autenticación
+          </Button>
         </div>
       </Card>
     );
@@ -108,16 +105,15 @@ export function AuthStatus() {
               </Badge>
             )}
           </div>
-          <div className="flex items-start gap-2 mb-2">
+          <div className="flex items-start gap-2 mb-3">
             <CheckCircle size={16} weight="fill" className="text-accent mt-0.5 flex-shrink-0" />
             <p className="text-xs text-muted-foreground">
               Tus datos se sincronizan automáticamente con tu cuenta de GitHub. Puedes acceder desde cualquier dispositivo.
             </p>
           </div>
-          <Button onClick={handleLogout} variant="outline" size="sm" className="gap-2 w-full">
-            <SignOut size={16} weight="bold" />
-            Cerrar sesión
-          </Button>
+          <p className="text-xs text-muted-foreground italic mb-2">
+            Para cerrar sesión, hazlo desde tu panel de GitHub Spark.
+          </p>
         </div>
       </div>
     </Card>
