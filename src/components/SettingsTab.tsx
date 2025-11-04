@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Route, CommuteType, PredictionSettings, TransportMethod, Commute } from '@/types/commute';
-import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database } from '@phosphor-icons/react';
+import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database, CloudArrowUp, Devices } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
 const DEFAULT_ROUTES: Route[] = [
@@ -248,15 +248,73 @@ export function SettingsTab() {
 
   return (
     <div className="space-y-6">
+      <Card className="p-6 border-accent/50 bg-accent/5">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
+            <CloudArrowUp size={20} weight="bold" className="text-accent" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Sincronización en Tiempo Real ⚡</h2>
+            <p className="text-sm text-muted-foreground">
+              Tus datos se sincronizan automáticamente entre todos tus dispositivos
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="p-4 bg-background/50 rounded-lg space-y-3">
+            <div className="flex items-start gap-3">
+              <Devices size={24} weight="bold" className="text-accent mt-0.5" />
+              <div className="flex-1">
+                <h3 className="font-semibold mb-1">Multiplataforma Automática</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Tu aplicación está configurada para sincronización automática. Todos tus traslados, 
+                  rutas, tipos y configuración se sincronizan <strong>instantáneamente</strong> entre:
+                </p>
+                <ul className="text-sm text-muted-foreground mt-2 space-y-1 list-disc list-inside">
+                  <li>Sitio web (en cualquier navegador)</li>
+                  <li>Aplicación móvil Android</li>
+                  <li>Aplicación móvil iOS</li>
+                  <li>Múltiples computadoras</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="border-t border-border pt-3">
+              <h4 className="text-sm font-semibold mb-2">¿Cómo funciona?</h4>
+              <div className="text-sm text-muted-foreground space-y-1.5">
+                <p>✅ <strong>Automático:</strong> No necesitas hacer nada, todo se sincroniza solo</p>
+                <p>✅ <strong>En tiempo real:</strong> Los cambios aparecen en menos de 1 segundo</p>
+                <p>✅ <strong>Funciona offline:</strong> Guarda localmente y sincroniza al conectarse</p>
+                <p>✅ <strong>Seguro:</strong> Solo tú puedes acceder a tus datos con tu cuenta de GitHub</p>
+              </div>
+            </div>
+
+            <div className="border-t border-border pt-3">
+              <h4 className="text-sm font-semibold mb-2">Para usar en otro dispositivo:</h4>
+              <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
+                <li>Abre la app en tu nuevo dispositivo</li>
+                <li>Inicia sesión con tu cuenta de GitHub</li>
+                <li>¡Listo! Todos tus datos aparecerán automáticamente</li>
+              </ol>
+            </div>
+          </div>
+
+          <div className="text-xs text-center text-muted-foreground pt-2">
+            El indicador de sincronización en la parte superior te muestra el estado en tiempo real
+          </div>
+        </div>
+      </Card>
+
       <Card className="p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
             <Database size={20} weight="bold" className="text-primary" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold">Sincronización de datos</h2>
+            <h2 className="text-xl font-semibold">Respaldo Manual (Opcional)</h2>
             <p className="text-sm text-muted-foreground">
-              Exporta e importa tus datos para usarlos en múltiples dispositivos
+              Exporta tus datos como archivo de respaldo adicional
             </p>
           </div>
         </div>
@@ -264,24 +322,25 @@ export function SettingsTab() {
         <div className="space-y-3">
           <div className="p-4 bg-muted/50 rounded-lg">
             <p className="text-sm text-foreground mb-3">
-              Exporta todos tus traslados, rutas y configuración a un archivo. Luego importa este archivo en otro dispositivo para tener tus datos sincronizados.
+              Aunque tus datos ya están sincronizados automáticamente, puedes crear un respaldo adicional 
+              exportándolos a un archivo JSON. Útil para guardar una copia de seguridad externa.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button onClick={handleExportData} className="gap-2 flex-1">
+              <Button onClick={handleExportData} variant="outline" className="gap-2 flex-1">
                 <Download size={20} weight="bold" />
-                Exportar datos
+                Exportar respaldo
               </Button>
-              <Button onClick={handleImportData} variant="secondary" className="gap-2 flex-1">
+              <Button onClick={handleImportData} variant="outline" className="gap-2 flex-1">
                 <Upload size={20} weight="bold" />
-                Importar datos
+                Restaurar desde respaldo
               </Button>
             </div>
           </div>
 
           <div className="text-xs text-muted-foreground space-y-1 pt-2">
-            <p>• <strong>Exportar:</strong> Descarga un archivo JSON con todos tus datos</p>
-            <p>• <strong>Importar:</strong> Sube el archivo en tu app móvil o en otro navegador</p>
-            <p>• Los datos actuales serán reemplazados al importar</p>
+            <p>• <strong>Exportar:</strong> Crea un archivo de respaldo con todos tus datos</p>
+            <p>• <strong>Importar:</strong> Restaura datos desde un archivo de respaldo</p>
+            <p>• ⚠️ Al importar, los datos actuales serán reemplazados</p>
           </div>
         </div>
 

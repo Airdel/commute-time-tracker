@@ -7,6 +7,7 @@ import { HistoryTab } from '@/components/HistoryTab';
 import { StatsTab } from '@/components/StatsTab';
 import { SettingsTab } from '@/components/SettingsTab';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { SyncIndicator } from '@/components/SyncIndicator';
 import { Bus } from '@phosphor-icons/react';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -63,7 +64,10 @@ function App() {
                 <p className="text-sm text-muted-foreground">Ruta Jasminez • Tepic, Nayarit</p>
               </div>
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-3">
+              <SyncIndicator />
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>

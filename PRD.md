@@ -86,14 +86,21 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Progression**: Clic en botón → Tema cambia instantáneamente → Preferencia se guarda y persiste entre sesiones
 - **Success criteria**: Tema persiste entre sesiones y recargas; transición es suave; todos los componentes se adaptan correctamente
 
-### Sincronización de Datos Multiplataforma
-- **Functionality**: Exportar e importar todos los datos (traslados, rutas, tipos, configuración) mediante archivos JSON para uso en múltiples dispositivos
-- **Purpose**: Permitir al usuario acceder a sus datos tanto en la web como en la app móvil instalada, manteniendo sincronización manual entre dispositivos
-- **Trigger**: Usuario navega a pestaña "Ajustes" y usa botones de exportar/importar en la sección de sincronización
+### Sincronización de Datos Multiplataforma en Tiempo Real
+- **Functionality**: Sincronización automática y en tiempo real de todos los datos (traslados, rutas, tipos, configuración, estado del cronómetro) entre todos los dispositivos donde el usuario ha iniciado sesión
+- **Purpose**: Permitir al usuario acceder y actualizar sus datos desde cualquier dispositivo (web, móvil Android/iOS) con sincronización instantánea y automática, sin intervención manual
+- **Trigger**: Automático - los datos se sincronizan continuamente cuando hay conexión a internet; funciona por el sistema useKV integrado en Spark
 - **Progression**: 
-  - Exportar: Clic en "Exportar datos" → Archivo JSON se descarga automáticamente con fecha en el nombre → Usuario puede transferir archivo a otro dispositivo
-  - Importar: Clic en "Importar datos" → Seleccionar archivo JSON → Confirmar reemplazo de datos → Datos se cargan en el dispositivo actual
-- **Success criteria**: Los datos exportados incluyen todos los traslados, rutas, tipos y configuración; al importar, todos los datos se restauran correctamente; el archivo tiene formato legible y versionado; funciona tanto en web como en app móvil Android
+  - Usuario registra traslado en cualquier dispositivo → Datos se guardan localmente → Se sincronizan automáticamente a la nube → Otros dispositivos reciben actualización en tiempo real (< 1 segundo)
+  - Usuario inicia cronómetro en celular → Estado persiste → Abre web en computadora → Cronómetro continúa corriendo → Detiene desde cualquier dispositivo
+  - Funciona offline: Cambios se guardan localmente y se sincronizan cuando se recupera conexión
+- **Success criteria**: 
+  - Todos los datos se sincronizan automáticamente entre dispositivos en menos de 1 segundo
+  - El usuario puede iniciar sesión con GitHub en cualquier dispositivo y ver sus datos inmediatamente
+  - Los cambios realizados en un dispositivo aparecen automáticamente en otros dispositivos abiertos
+  - Estado del cronómetro persiste y se sincroniza entre sesiones
+  - Funciona correctamente tanto en web como en apps móviles (PWA o nativa)
+  - No se requiere exportar/importar archivos manualmente
 
 ## Edge Case Handling
 
@@ -104,9 +111,10 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Tiempos de traslado muy largos** - Manejar casos donde usuario olvida detener cronómetro (solicitar confirmación para viajes >3 horas)
 - **Eliminación de rutas/tipos en uso** - Prevenir eliminación de rutas predeterminadas y tipos base; permitir edición en su lugar
 - **Predicción sin datos suficientes** - Mostrar mensaje indicando que se necesitan al menos 3 traslados del tipo para generar predicción
-- **Archivo de importación inválido** - Validar estructura del JSON antes de importar; mostrar mensaje de error claro si el archivo está corrupto o no es un respaldo válido
-- **Importación en dispositivo con datos existentes** - Advertir al usuario que los datos actuales serán reemplazados; solicitar confirmación explícita antes de proceder
-- **Fallos en descarga/subida de archivos** - Manejar errores de permisos del sistema de archivos; mostrar mensajes de error informativos
+- **Sin conexión a internet** - Los datos se guardan localmente y se sincronizan automáticamente cuando se recupera la conexión; mostrar indicador sutil de estado offline
+- **Conflictos de sincronización** - El sistema usa timestamps para resolver conflictos; la última modificación gana (last-write-wins)
+- **Múltiples dispositivos editando simultáneamente** - Los cambios se propagan en tiempo real; el estado se reconcilia automáticamente usando el modelo de datos de useKV
+- **Usuario no autenticado** - Los datos se guardan localmente; al iniciar sesión, se sincronizan a la nube y están disponibles en todos los dispositivos
 
 ## Design Direction
 
