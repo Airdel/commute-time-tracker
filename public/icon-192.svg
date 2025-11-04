@@ -1,9 +1,0 @@
-<svg width="192" height="192" xmlns="http://www.w3.org/2000/svg">
-  <rect width="192" height="192" fill="#5a6fd4" rx="32"/>
-  <g transform="translate(48, 48)">
-    <path d="M96 16H80L72 8H24C19.6 8 16 11.6 16 16v80h80V16zM32 88V24h8l8 8h48v56H32z" fill="white"/>
-    <rect x="40" y="40" width="48" height="8" fill="white" rx="4"/>
-    <rect x="40" y="56" width="48" height="8" fill="white" rx="4"/>
-    <rect x="40" y="72" width="32" height="8" fill="white" rx="4"/>
-  </g>
-</svg>
