@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge
-import { SignIn, SignOut, GitBranch, CheckCirc
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { SignIn, SignOut, GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
 import { toast } from 'sonner';
@@ -62,26 +62,48 @@ export function AuthStatus() {
             <p className="text-sm text-muted-foreground mb-3">
               Para sincronizar tus datos entre dispositivos, necesitas iniciar sesión con tu cuenta de GitHub.
             </p>
-              onClic
-              <SignIn size={20} 
+            <Button onClick={checkAuth} variant="outline" size="sm" className="gap-2">
+              <SignIn size={20} weight="bold" />
+              Verificar sesión
             </Button>
+          </div>
         </div>
+      </Card>
     );
+  }
 
-    <Card className="p-4 border-accent/
-        <Avatar class
-          <Avata
-        <div c
-            <
-      
-   
-
-          
-          <div className="flex items-start gap-2 p-2 bg
-            <p className="text-xs text-muted-f
+  return (
+    <Card className="p-4 border-accent/50 bg-accent/5">
+      <div className="flex items-start gap-3">
+        <Avatar className="w-10 h-10 ring-2 ring-accent/20">
+          <AvatarImage src={user.avatarUrl} alt={user.login} />
+          <AvatarFallback>{user.login.slice(0, 2).toUpperCase()}</AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="font-semibold text-foreground truncate">{user.login}</h3>
+            <Badge variant="secondary" className="text-xs gap-1">
+              <CheckCircle size={14} weight="fill" />
+              Conectado
+            </Badge>
+            {user.isOwner && (
+              <Badge variant="outline" className="text-xs gap-1">
+                <GitBranch size={14} weight="bold" />
+                Propietario
+              </Badge>
+            )}
+          </div>
+          <p className="text-sm text-muted-foreground truncate">{user.email}</p>
+          <div className="flex items-start gap-2 p-2 bg-muted/50 rounded-md mt-3">
+            <CheckCircle size={16} weight="bold" className="text-accent mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-muted-foreground">
+              Tus registros se sincronizan automáticamente con tu cuenta de GitHub.
             </p>
+          </div>
         </div>
+      </div>
     </Card>
+  );
 }
 
 
