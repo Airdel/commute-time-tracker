@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { SignIn, SignOut, GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
 
+interface UserInfo {
+  login: string;
+  avatarUrl: string;
+  email: string;
+  id: number;
+  isOwner: boolean;
 }
-export function Auth
-  const [loading
-
-    checkAuth();
-
- 
 
 export function AuthStatus() {
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -19,11 +19,11 @@ export function AuthStatus() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    }
+    checkAuth();
   }, []);
 
   const checkAuth = async () => {
-
+    try {
       setLoading(true);
       setError(null);
       const userInfo = await window.spark.user();
@@ -34,7 +34,7 @@ export function AuthStatus() {
     } finally {
       setLoading(false);
     }
-    
+  };
 
   const handleLogin = () => {
     window.location.href = '/api/auth/login';
@@ -54,9 +54,9 @@ export function AuthStatus() {
           <div className="flex-1">
             <div className="h-4 bg-muted rounded mb-2 w-32" />
             <div className="h-3 bg-muted rounded w-48" />
-              Re
+          </div>
         </div>
-        </div
+      </Card>
     );
   }
 
@@ -69,7 +69,7 @@ export function AuthStatus() {
             <Badge variant="destructive" className="text-xs">
               No autenticado
             </Badge>
-              <B
+          </div>
           <p className="text-sm text-muted-foreground">
             Inicia sesión con tu cuenta de GitHub para sincronizar tus datos entre dispositivos y mantener un respaldo seguro en la nube.
           </p>
@@ -83,11 +83,11 @@ export function AuthStatus() {
             </Button>
           </div>
         </div>
-
+      </Card>
     );
+  }
 
-
-
+  return (
     <Card className="p-4 border border-border">
       <div className="flex items-start gap-3">
         <Avatar className="w-12 h-12">
@@ -97,28 +97,27 @@ export function AuthStatus() {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <p className="font-semibold text-sm truncate">{user.login}</p>
-
+            <Badge variant="secondary" className="text-xs gap-1">
               <CheckCircle size={14} weight="bold" />
-
+              Conectado
             </Badge>
-
+            {user.isOwner && (
               <Badge variant="outline" className="text-xs gap-1">
-
+                <GitBranch size={14} weight="bold" />
                 Propietario
               </Badge>
             )}
-
-
-
+          </div>
+          <div className="flex items-start gap-2 mb-2">
             <CheckCircle size={16} weight="fill" className="text-accent mt-0.5 flex-shrink-0" />
             <p className="text-xs text-muted-foreground">
               Tus datos se sincronizan automáticamente con tu cuenta de GitHub. Puedes acceder desde cualquier dispositivo.
             </p>
           </div>
-
-
-
-
+          <Button onClick={handleLogout} variant="outline" size="sm" className="gap-2 w-full">
+            <SignOut size={16} weight="bold" />
+            Cerrar sesión
+          </Button>
         </div>
       </div>
     </Card>
