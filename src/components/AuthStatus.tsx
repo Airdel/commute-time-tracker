@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/badge
+import { SignIn, SignOut, GitBranch, CheckCirc
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { SignIn, SignOut, GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
 import { toast } from 'sonner';
@@ -62,47 +62,47 @@ export function AuthStatus() {
             <p className="text-sm text-muted-foreground mb-3">
               Para sincronizar tus datos entre dispositivos, necesitas iniciar sesión con tu cuenta de GitHub.
             </p>
-            <Button 
-              variant="default" 
-              className="gap-2 w-full sm:w-auto"
-              onClick={() => toast.info('Función de inicio de sesión en desarrollo')}
-            >
-              <SignIn size={20} weight="bold" />
-              Iniciar sesión con GitHub
+              onClic
+              <SignIn size={20} 
             </Button>
-          </div>
         </div>
-      </Card>
     );
-  }
 
-  return (
-    <Card className="p-4 border-accent/50 bg-accent/5">
-      <div className="flex items-start gap-3">
-        <Avatar className="w-10 h-10 border-2 border-accent/30">
-          <AvatarImage src={user.avatarUrl} alt={user.login} />
-          <AvatarFallback>{user.login[0].toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <h3 className="font-semibold truncate">{user.login}</h3>
-            <Badge variant="secondary" className="text-xs gap-1">
-              <CheckCircle size={12} weight="fill" />
-              Conectado
-            </Badge>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-            <GitBranch size={14} />
-            <span className="truncate">{user.email}</span>
-          </div>
-          <div className="flex items-start gap-2 p-2 bg-background/50 rounded-lg">
-            <CheckCircle size={16} weight="bold" className="text-accent mt-0.5 flex-shrink-0" />
-            <p className="text-xs text-muted-foreground">
-              Tu cuenta está sincronizada. Todos tus datos están respaldados y disponibles en todos tus dispositivos.
+    <Card className="p-4 border-accent/
+        <Avatar class
+          <Avata
+        <div c
+            <
+      
+   
+
+          
+          <div className="flex items-start gap-2 p-2 bg
+            <p className="text-xs text-muted-f
             </p>
-          </div>
         </div>
-      </div>
     </Card>
-  );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
