@@ -34,55 +34,49 @@ export function SyncIndicator() {
       }
     };
 
-    const handleOffline = () => {
-      setIsOnline(false);
-      setIsSyncing(false);
-    };
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, [user]);
-
-  if (!authChecked) {
-    return null;
-  }
-
-  if (!user) {
-    return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Badge variant="outline" className="gap-1.5 border-destructive/50 text-destructive cursor-help">
-              <SignIn size={14} weight="bold" />
-              <span className="text-xs">Sin sesión</span>
-            </Badge>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-xs">Inicia sesión en Ajustes para sincronizar entre dispositivos</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    );
-  }
-
-  if (!isOnline) {
-    return (
       <Tooltip>
         <TooltipTrigger asChild>
           <Badge variant="outline" className="gap-1.5 border-destructive/50 text-destructive cursor-help">
             <CloudSlash size={14} weight="fill" />
             <span className="text-xs">Sin conexión</span>
           </Badge>
-        </TooltipTrigger>
+        </TooltipTrigger>Offline);
         <TooltipContent>
           <p className="text-xs">Los datos se guardan localmente y se sincronizarán cuando recuperes conexión</p>
         </TooltipContent>
+      </Tooltip> handleOffline);
+
+  if (!authChecked) {
+    return null;
+  }
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Badge variant="outline" className="gap-1.5 border-primary/50 text-primary cursor-help">
+            <CloudArrowUp size={14} weight="fill" className="animate-pulse" />
+            <span className="text-xs">Sincronizando...</span>
+          </Badge>t-destructive cursor-help">
+        </TooltipTrigger> />
+        <TooltipContent>/span>
+          <p className="text-xs">Tus datos se están sincronizando con la nube</p>
+        </TooltipContent>
       </Tooltip>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Badge variant="outline" className="gap-1.5 border-accent/50 text-accent cursor-help">
+          <CloudCheck size={14} weight="fill" />
+          <span className="text-xs hidden sm:inline">Sincronizado</span>
+          <span className="text-xs sm:hidden">{user.login}</span>
+        </Badge>
+      </TooltipTrigger> conexión</span>
+      <TooltipContent>
+        <p className="text-xs">Conectado como {user.login} • Todos tus datos están sincronizados</p>
+      </TooltipContent>
+    </Tooltip>tos se guardan localmente y se sincronizarán cuando recuperes conexión</p>
     );
   }
 
