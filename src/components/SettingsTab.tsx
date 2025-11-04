@@ -6,12 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { Route, CommuteType, PredictionSettings } from '@/types/commute';
-import { Plus, Pencil, Trash, MapPin, Tag, Clock } from '@phosphor-icons/react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Route, CommuteType, PredictionSettings, TransportMethod } from '@/types/commute';
+import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
 const DEFAULT_ROUTES: Route[] = [
-  { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true },
+  { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true, transportMethod: 'bus' },
 ];
 
 const DEFAULT_TYPES: CommuteType[] = [
@@ -33,16 +34,20 @@ export function SettingsTab() {
   const [editingRoute, setEditingRoute] = useState<Route | null>(null);
   const [editingType, setEditingType] = useState<CommuteType | null>(null);
 
-  const [routeForm, setRouteForm] = useState({ name: '', color: 'oklch(0.45 0.15 250)' });
+  const [routeForm, setRouteForm] = useState({ 
+    name: '', 
+    color: 'oklch(0.45 0.15 250)',
+    transportMethod: 'bus' as TransportMethod
+  });
   const [typeForm, setTypeForm] = useState({ name: '', icon: 'map-pin', description: '' });
 
   const openRouteDialog = (route?: Route) => {
     if (route) {
       setEditingRoute(route);
-      setRouteForm({ name: route.name, color: route.color });
+      setRouteForm({ name: route.name, color: route.color, transportMethod: route.transportMethod });
     } else {
       setEditingRoute(null);
-      setRouteForm({ name: '', color: 'oklch(0.45 0.15 250)' });
+      setRouteForm({ name: '', color: 'oklch(0.45 0.15 250)', transportMethod: 'bus' });
     }
     setShowRouteDialog(true);
   };
@@ -68,7 +73,7 @@ export function SettingsTab() {
       setRoutes((current) =>
         (current || []).map((r) =>
           r.id === editingRoute.id
-            ? { ...r, name: routeForm.name, color: routeForm.color }
+            ? { ...r, name: routeForm.name, color: routeForm.color, transportMethod: routeForm.transportMethod }
             : r
         )
       );
@@ -78,6 +83,7 @@ export function SettingsTab() {
         id: `route-${Date.now()}`,
         name: routeForm.name,
         color: routeForm.color,
+        transportMethod: routeForm.transportMethod,
       };
       setRoutes((current) => [...(current || []), newRoute]);
       toast.success('Ruta agregada');
@@ -182,15 +188,24 @@ export function SettingsTab() {
                     className="w-10 h-10 rounded-lg flex items-center justify-center"
                     style={{ backgroundColor: route.color }}
                   >
-                    <MapPin size={20} weight="bold" className="text-white" />
+                    {route.transportMethod === 'motorbike' ? (
+                      <Motorcycle size={20} weight="bold" className="text-white" />
+                    ) : (
+                      <Bus size={20} weight="bold" className="text-white" />
+                    )}
                   </div>
                   <div>
                     <div className="font-semibold">{route.name}</div>
-                    {route.isDefault && (
-                      <Badge variant="secondary" className="text-xs mt-1">
-                        Predeterminada
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="text-xs mt-1">
+                        {route.transportMethod === 'motorbike' ? 'Motoneta' : 'Camión'}
                       </Badge>
-                    )}
+                      {route.isDefault && (
+                        <Badge variant="secondary" className="text-xs mt-1">
+                          Predeterminada
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -347,6 +362,32 @@ export function SettingsTab() {
                 value={routeForm.name}
                 onChange={(e) => setRouteForm({ ...routeForm, name: e.target.value })}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Método de transporte</Label>
+              <Select 
+                value={routeForm.transportMethod} 
+                onValueChange={(value: TransportMethod) => setRouteForm({ ...routeForm, transportMethod: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="bus">
+                    <div className="flex items-center gap-2">
+                      <Bus size={16} weight="bold" />
+                      <span>Camión/Autobús</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="motorbike">
+                    <div className="flex items-center gap-2">
+                      <Motorcycle size={16} weight="bold" />
+                      <span>Motoneta/Motocicleta</span>
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">

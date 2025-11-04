@@ -1,23 +1,28 @@
-import { Commute, PredictionSettings } from '@/types/commute';
+import { Commute, PredictionSettings, TransportMethod } from '@/types/commute';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, TrendUp, Calendar, Lightbulb } from '@phosphor-icons/react';
+import { Clock, TrendUp, Calendar, Lightbulb, Bus, Motorcycle } from '@phosphor-icons/react';
 import { formatTime } from '@/lib/time-utils';
 
 interface PredictionCardProps {
   commutes: Commute[];
   predictionSettings: PredictionSettings;
   commuteType: string;
+  transportMethod?: TransportMethod;
 }
 
-export function PredictionCard({ commutes, predictionSettings, commuteType }: PredictionCardProps) {
-  const calculatePrediction = () => {
+export function PredictionCard({ commutes, predictionSettings, commuteType, transportMethod }: PredictionCardProps) {
+  const calculatePrediction = (method?: TransportMethod) => {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - predictionSettings.daysToAnalyze);
 
     const relevantCommutes = commutes.filter((c) => {
       const commuteDate = new Date(c.date);
-      return c.type === commuteType && commuteDate >= cutoffDate;
+      const matchesType = c.type === commuteType;
+      const matchesDate = commuteDate >= cutoffDate;
+      const matchesMethod = method ? c.transportMethod === method : true;
+      
+      return matchesType && matchesDate && matchesMethod;
     });
 
     if (relevantCommutes.length < 3) {
@@ -48,12 +53,15 @@ export function PredictionCard({ commutes, predictionSettings, commuteType }: Pr
       conservativeDeparture,
       targetArrival,
       sampleSize: relevantCommutes.length,
+      transportMethod: method,
     };
   };
 
-  const prediction = calculatePrediction();
+  const busPrediction = calculatePrediction('bus');
+  const motorbikePrediction = calculatePrediction('motorbike');
+  const anyPrediction = busPrediction || motorbikePrediction;
 
-  if (!prediction) {
+  if (!anyPrediction) {
     return (
       <Card className="p-6 border-dashed">
         <div className="flex items-start gap-3">
@@ -80,6 +88,64 @@ export function PredictionCard({ commutes, predictionSettings, commuteType }: Pr
     });
   };
 
+  const PredictionSection = ({ prediction }: { prediction: NonNullable<ReturnType<typeof calculatePrediction>> }) => (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-3">
+        {prediction.transportMethod === 'motorbike' ? (
+          <Motorcycle size={20} weight="bold" className="text-foreground" />
+        ) : (
+          <Bus size={20} weight="bold" className="text-foreground" />
+        )}
+        <h4 className="font-semibold">
+          {prediction.transportMethod === 'motorbike' ? 'En Motoneta' : 'En Camión'}
+        </h4>
+        <Badge variant="secondary" className="text-xs">
+          {prediction.sampleSize} viajes analizados
+        </Badge>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-background/80 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Clock size={16} weight="bold" className="text-primary" />
+            <span className="text-sm font-medium text-muted-foreground">Hora recomendada</span>
+          </div>
+          <div className="text-2xl font-bold text-foreground">
+            {formatDepartureTime(prediction.suggestedDeparture)}
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">
+            Llegas aproximadamente a las {formatDepartureTime(prediction.targetArrival)}
+          </p>
+        </div>
+
+        <div className="bg-background/80 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <TrendUp size={16} weight="bold" className="text-orange-600" />
+            <span className="text-sm font-medium text-muted-foreground">Salida conservadora</span>
+          </div>
+          <div className="text-2xl font-bold text-foreground">
+            {formatDepartureTime(prediction.conservativeDeparture)}
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">5 minutos extra de margen</p>
+        </div>
+      </div>
+
+      <div className="bg-background/50 rounded-lg p-3">
+        <div className="flex items-start gap-2">
+          <Calendar size={16} weight="bold" className="text-muted-foreground mt-0.5" />
+          <div className="text-xs text-muted-foreground">
+            <p>
+              <strong>Promedio de duración:</strong> {prediction.avgDuration} minutos
+            </p>
+            <p>
+              <strong>75% de tus viajes duran:</strong> {prediction.p75Duration} minutos o menos
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <Card className="p-6 bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20">
       <div className="flex items-start gap-3 mb-4">
@@ -87,56 +153,24 @@ export function PredictionCard({ commutes, predictionSettings, commuteType }: Pr
           <Lightbulb size={20} weight="bold" className="text-accent-foreground" />
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-lg mb-1">Sugerencia de salida</h3>
+          <h3 className="font-semibold text-lg mb-1">Sugerencias de salida</h3>
           <p className="text-sm text-muted-foreground">
-            Basado en tus últimos {prediction.sampleSize} traslados
+            Basado en tu historial de traslados recientes
           </p>
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-background/80 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Clock size={16} weight="bold" className="text-primary" />
-              <span className="text-sm font-medium text-muted-foreground">Hora recomendada</span>
-            </div>
-            <div className="text-2xl font-bold text-foreground">
-              {formatDepartureTime(prediction.suggestedDeparture)}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Llegas aproximadamente a las {formatDepartureTime(prediction.targetArrival)}
-            </p>
-          </div>
+      <div className="space-y-6">
+        {busPrediction && <PredictionSection prediction={busPrediction} />}
+        
+        {busPrediction && motorbikePrediction && (
+          <div className="border-t border-border/50 my-4" />
+        )}
+        
+        {motorbikePrediction && <PredictionSection prediction={motorbikePrediction} />}
 
-          <div className="bg-background/80 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <TrendUp size={16} weight="bold" className="text-orange-600" />
-              <span className="text-sm font-medium text-muted-foreground">Salida conservadora</span>
-            </div>
-            <div className="text-2xl font-bold text-foreground">
-              {formatDepartureTime(prediction.conservativeDeparture)}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">5 minutos extra de margen</p>
-          </div>
-        </div>
-
-        <div className="bg-background/50 rounded-lg p-3">
-          <div className="flex items-start gap-2">
-            <Calendar size={16} weight="bold" className="text-muted-foreground mt-0.5" />
-            <div className="text-xs text-muted-foreground">
-              <p>
-                <strong>Promedio de duración:</strong> {prediction.avgDuration} minutos
-              </p>
-              <p>
-                <strong>75% de tus viajes duran:</strong> {prediction.p75Duration} minutos o menos
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <Badge variant="secondary" className="w-full justify-center py-2">
-          Esta predicción se actualiza automáticamente con cada nuevo traslado
+        <Badge variant="secondary" className="w-full justify-center py-2 mt-4">
+          Estas predicciones se actualizan automáticamente con cada nuevo traslado
         </Badge>
       </div>
     </Card>

@@ -11,7 +11,8 @@ import { Bus } from '@phosphor-icons/react';
 import { Toaster } from '@/components/ui/sonner';
 
 const DEFAULT_ROUTES: Route[] = [
-  { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true },
+  { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true, transportMethod: 'bus' },
+  { id: 'motorbike', name: 'Motoneta Personal', color: 'oklch(0.55 0.22 25)', transportMethod: 'motorbike' },
 ];
 
 const DEFAULT_TYPES: CommuteType[] = [

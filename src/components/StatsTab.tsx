@@ -1,9 +1,9 @@
-import { Commute, Route, CommuteType } from '@/types/commute';
+import { Commute, Route, CommuteType, TransportMethod } from '@/types/commute';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { formatDuration } from '@/lib/time-utils';
-import { TrendUp, TrendDown, Clock, ChartBar, MapPin } from '@phosphor-icons/react';
+import { TrendUp, TrendDown, Clock, ChartBar, MapPin, Bus, Motorcycle } from '@phosphor-icons/react';
 import { useState } from 'react';
 
 interface StatsTabProps {
@@ -15,6 +15,7 @@ interface StatsTabProps {
 export function StatsTab({ commutes, commuteTypes, routes }: StatsTabProps) {
   const [selectedType, setSelectedType] = useState<string>('all');
   const [selectedRoute, setSelectedRoute] = useState<string>('all');
+  const [selectedTransportMethod, setSelectedTransportMethod] = useState<string>('all');
 
   if (commutes.length < 3) {
     return (
@@ -37,7 +38,8 @@ export function StatsTab({ commutes, commuteTypes, routes }: StatsTabProps) {
   const filteredCommutes = commutes.filter(c => {
     const typeMatch = selectedType === 'all' || c.type === selectedType;
     const routeMatch = selectedRoute === 'all' || c.routeId === selectedRoute;
-    return typeMatch && routeMatch;
+    const transportMatch = selectedTransportMethod === 'all' || c.transportMethod === selectedTransportMethod;
+    return typeMatch && routeMatch && transportMatch;
   });
 
   const calculateStats = (commuteList: Commute[]) => {
@@ -83,6 +85,21 @@ export function StatsTab({ commutes, commuteTypes, routes }: StatsTabProps) {
     };
   }).filter(item => item.stats !== null);
 
+  const statsByTransportMethod = [
+    {
+      method: 'bus' as TransportMethod,
+      name: 'Camión',
+      icon: Bus,
+      stats: calculateStats(filteredCommutes.filter(c => c.transportMethod === 'bus')),
+    },
+    {
+      method: 'motorbike' as TransportMethod,
+      name: 'Motoneta',
+      icon: Motorcycle,
+      stats: calculateStats(filteredCommutes.filter(c => c.transportMethod === 'motorbike')),
+    },
+  ].filter(item => item.stats !== null);
+
   if (!overallStats) {
     return (
       <Card className="p-12">
@@ -105,7 +122,7 @@ export function StatsTab({ commutes, commuteTypes, routes }: StatsTabProps) {
     <div className="space-y-6">
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Filtros</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Tipo de traslado</label>
             <Select value={selectedType} onValueChange={setSelectedType}>
@@ -142,6 +159,30 @@ export function StatsTab({ commutes, commuteTypes, routes }: StatsTabProps) {
                     </div>
                   </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Método de transporte</label>
+            <Select value={selectedTransportMethod} onValueChange={setSelectedTransportMethod}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos los métodos</SelectItem>
+                <SelectItem value="bus">
+                  <div className="flex items-center gap-2">
+                    <Bus size={16} weight="bold" />
+                    Camión
+                  </div>
+                </SelectItem>
+                <SelectItem value="motorbike">
+                  <div className="flex items-center gap-2">
+                    <Motorcycle size={16} weight="bold" />
+                    Motoneta
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -196,6 +237,28 @@ export function StatsTab({ commutes, commuteTypes, routes }: StatsTabProps) {
             {statsByType.map(({ type, stats }) => (
               <Card key={type.id} className="p-4">
                 <div className="font-medium mb-2">{type.name}</div>
+                <div className="text-2xl font-bold mb-1">{formatDuration(stats!.avg)}</div>
+                <div className="text-xs text-muted-foreground">{stats!.count} viajes</div>
+                <div className="flex gap-2 mt-2 text-xs">
+                  <span className="text-green-600">↓ {formatDuration(stats!.min)}</span>
+                  <span className="text-orange-600">↑ {formatDuration(stats!.max)}</span>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {statsByTransportMethod.length > 0 && (
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4">Por método de transporte</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {statsByTransportMethod.map(({ method, name, icon: Icon, stats }) => (
+              <Card key={method} className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Icon size={20} weight="bold" />
+                  <div className="font-medium">{name}</div>
+                </div>
                 <div className="text-2xl font-bold mb-1">{formatDuration(stats!.avg)}</div>
                 <div className="text-xs text-muted-foreground">{stats!.count} viajes</div>
                 <div className="flex gap-2 mt-2 text-xs">

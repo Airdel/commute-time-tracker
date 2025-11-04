@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { Clock, Pencil, Trash, Bus, MapPin } from '@phosphor-icons/react';
+import { Clock, Pencil, Trash, Bus, MapPin, Motorcycle } from '@phosphor-icons/react';
 import { formatDuration, formatTime, formatDate, calculateDuration } from '@/lib/time-utils';
 import { toast } from 'sonner';
 
@@ -148,6 +148,19 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute, routes,
                               <Badge variant="outline" className="gap-1">
                                 <Clock size={14} weight="bold" />
                                 {formatDuration(commute.duration)}
+                              </Badge>
+                              <Badge variant="outline" className="gap-1">
+                                {commute.transportMethod === 'motorbike' ? (
+                                  <>
+                                    <Motorcycle size={14} weight="bold" />
+                                    Motoneta
+                                  </>
+                                ) : (
+                                  <>
+                                    <Bus size={14} weight="bold" />
+                                    Camión
+                                  </>
+                                )}
                               </Badge>
                               {route && (
                                 <Badge

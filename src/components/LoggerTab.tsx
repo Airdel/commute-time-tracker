@@ -66,12 +66,15 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
   };
 
   const startTimer = () => {
-    if (!selectedType) return;
+    if (!selectedType || !selectedRoute) return;
 
+    const route = routes.find(r => r.id === selectedRoute);
+    
     setTimerState({
       isActive: true,
       type: selectedType,
       routeId: selectedRoute,
+      transportMethod: route?.transportMethod || 'bus',
       startTime: new Date().toISOString(),
     });
     setElapsedTime(0);
@@ -96,6 +99,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
       id: Date.now().toString(),
       type: timerState.type,
       routeId: timerState.routeId || undefined,
+      transportMethod: timerState.transportMethod || 'bus',
       departureTime: timerState.startTime,
       arrivalTime: new Date().toISOString(),
       duration,
@@ -138,10 +142,13 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
       return;
     }
 
+    const route = routes.find(r => r.id === manualForm.routeId);
+
     const commute: Commute = {
       id: Date.now().toString(),
       type: manualForm.type,
       routeId: manualForm.routeId,
+      transportMethod: route?.transportMethod || 'bus',
       departureTime: manualForm.departureTime,
       arrivalTime: manualForm.arrivalTime,
       duration,
