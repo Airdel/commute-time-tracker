@@ -293,21 +293,15 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="start-route">Ruta</Label>
+              <Label htmlFor="start-route">Ruta / Método de transporte</Label>
               <Select value={selectedRoute} onValueChange={setSelectedRoute}>
                 <SelectTrigger id="start-route">
-                  <SelectValue placeholder="Selecciona ruta" />
+                  <SelectValue placeholder="Selecciona ruta o método" />
                 </SelectTrigger>
                 <SelectContent>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: route.color }}
-                        />
-                        {route.name}
-                      </div>
+                      {route.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -350,21 +344,15 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="manual-route">Ruta</Label>
+              <Label htmlFor="manual-route">Ruta / Método de transporte</Label>
               <Select value={manualForm.routeId} onValueChange={(value) => setManualForm({ ...manualForm, routeId: value })}>
                 <SelectTrigger id="manual-route">
-                  <SelectValue placeholder="Selecciona ruta" />
+                  <SelectValue placeholder="Selecciona ruta o método" />
                 </SelectTrigger>
                 <SelectContent>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: route.color }}
-                        />
-                        {route.name}
-                      </div>
+                      {route.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

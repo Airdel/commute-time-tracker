@@ -242,21 +242,15 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute, routes,
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="edit-route">Ruta</Label>
+              <Label htmlFor="edit-route">Ruta / Método de transporte</Label>
               <Select value={editForm.routeId} onValueChange={(value) => setEditForm({ ...editForm, routeId: value })}>
                 <SelectTrigger id="edit-route">
-                  <SelectValue placeholder="Selecciona ruta" />
+                  <SelectValue placeholder="Selecciona ruta o método" />
                 </SelectTrigger>
                 <SelectContent>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: route.color }}
-                        />
-                        {route.name}
-                      </div>
+                      {route.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
