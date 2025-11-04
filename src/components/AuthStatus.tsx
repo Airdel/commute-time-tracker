@@ -1,23 +1,21 @@
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { GitBranch, CheckCircle } from '@pho
+import { GitBranch, CheckCircle } from '@phosphor-icons/react';
+import { Card } from '@/components/ui/card';
 
+const HARDCODED_USER = {
+  login: 'usuario',
+  email: 'usuario@ejemplo.com',
+  avatarUrl: ''
+};
 
-      <div className="fl
-          <AvatarImage src={H
-            {HARDCODED_USER.logi
-        </Avatar>
-        
-            <Bad
-  
-
-            <GitBranch size={1
-          
-        <Badge variant="outline" className="text-xs text-accen
-        </Badge>
-    </Card>
-}
-
+export function AuthStatus() {
+  return (
+    <Card className="p-4">
+      <div className="flex items-center gap-3">
+        <Avatar>
+          <AvatarImage src={HARDCODED_USER.avatarUrl} alt={HARDCODED_USER.login} />
+          <AvatarFallback>
             {HARDCODED_USER.login.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
@@ -38,6 +36,6 @@ import { GitBranch, CheckCircle } from '@pho
           Activa
         </Badge>
       </div>
-
-
-
+    </Card>
+  );
+}
