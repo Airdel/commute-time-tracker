@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarImage, AvatarFallback
+import { Avatar, AvatarImage, AvatarFallback 
 import { GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { SignIn, SignOut, GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
