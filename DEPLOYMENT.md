@@ -36,7 +36,7 @@ Si solo quieres instalar la app en tu teléfono:
 ```bash
 # Clonar el repositorio
 git clone <URL_DEL_REPOSITORIO>
-cd spark-template
+cd work-commute-tracker
 
 # Instalar dependencias
 npm install

@@ -51,7 +51,7 @@
 ```bash
 # 1. Clonar el repositorio
 git clone <URL_DEL_REPOSITORIO>
-cd spark-template
+cd work-commute-tracker
 
 # 2. Instalar dependencias
 npm install
