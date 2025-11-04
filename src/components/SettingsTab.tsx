@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Route, CommuteType, PredictionSettings, TransportMethod, Commute } from '@/types/commute';
 import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database, CloudArrowUp, Devices } from '@phosphor-icons/react';
 import { toast } from 'sonner';
+import { AuthStatus } from '@/components/AuthStatus';
 
 const DEFAULT_ROUTES: Route[] = [
   { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true, transportMethod: 'bus' },
@@ -248,6 +249,8 @@ export function SettingsTab() {
 
   return (
     <div className="space-y-6">
+      <AuthStatus />
+
       <Card className="p-6 border-accent/50 bg-accent/5">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">

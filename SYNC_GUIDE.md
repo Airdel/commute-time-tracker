@@ -2,120 +2,151 @@
 
 Esta guía explica cómo sincronizar tus datos de traslados entre la versión web y la aplicación móvil Android.
 
+## 🔐 Inicio de sesión con GitHub
+
+Para poder sincronizar tus datos automáticamente entre dispositivos, necesitas iniciar sesión con tu cuenta de GitHub.
+
+### Primera vez que usas la app:
+
+1. Abre la aplicación (web o móvil)
+2. Ve a la pestaña **"Ajustes"**
+3. En la parte superior verás una tarjeta que indica **"Sin sesión activa"**
+4. Haz clic en **"Iniciar sesión con GitHub"**
+5. Autoriza la aplicación en GitHub
+6. ¡Listo! Ahora tu cuenta está conectada
+
+### ¿Ya tienes datos registrados?
+
+Si ya tienes traslados registrados en el sitio web y ahora quieres verlos en tu móvil:
+
+1. **En el dispositivo con los datos (ej: tu computadora):**
+   - Abre la app en tu navegador
+   - Inicia sesión con GitHub (si aún no lo has hecho)
+   - Tus datos locales se sincronizarán automáticamente a tu cuenta
+
+2. **En tu nuevo dispositivo (ej: tu celular):**
+   - Instala la app móvil
+   - Abre la app e inicia sesión con la **misma cuenta de GitHub**
+   - Todos tus datos aparecerán automáticamente
+
 ## 🔄 Cómo funciona la sincronización
 
-Los datos de la aplicación se almacenan localmente en cada dispositivo:
-- **En la web**: Los datos se guardan en el almacenamiento local de tu navegador
-- **En la app móvil**: Los datos se guardan en el almacenamiento interno de la app
+Una vez que inicies sesión con GitHub, la sincronización es **completamente automática**:
 
-Para tener los mismos datos en ambos lugares, necesitas **exportar** desde un dispositivo e **importar** en el otro.
+- ✅ **Tiempo real**: Los cambios se sincronizan en menos de 1 segundo
+- ✅ **Bidireccional**: Funciona de web → móvil y de móvil → web
+- ✅ **Automática**: No necesitas hacer nada, todo se guarda solo
+- ✅ **Funciona offline**: Los datos se guardan localmente y se sincronizan cuando tengas conexión
+- ✅ **Segura**: Solo tú puedes acceder a tus datos con tu cuenta de GitHub
 
-## 📤 Exportar datos
+### Datos que se sincronizan:
 
-### Desde la Web:
-1. Abre la aplicación en tu navegador
-2. Ve a la pestaña **"Ajustes"**
-3. En la sección **"Sincronización de datos"**, haz clic en **"Exportar datos"**
-4. Se descargará un archivo JSON con nombre `traslados-backup-YYYY-MM-DD.json`
-5. Guarda este archivo en un lugar accesible (Google Drive, correo, etc.)
-
-### Desde la App Móvil:
-1. Abre la app en tu teléfono Android
-2. Ve a la pestaña **"Ajustes"**
-3. En la sección **"Sincronización de datos"**, toca **"Exportar datos"**
-4. El archivo se descargará en tu carpeta de Descargas
-5. Puedes compartir el archivo usando el gestor de archivos
-
-## 📥 Importar datos
-
-### En la Web:
-1. Abre la aplicación en tu navegador
-2. Ve a la pestaña **"Ajustes"**
-3. En la sección **"Sincronización de datos"**, haz clic en **"Importar datos"**
-4. Selecciona el archivo JSON que exportaste previamente
-5. Confirma que deseas reemplazar tus datos actuales
-6. ¡Listo! Tus datos están sincronizados
-
-### En la App Móvil:
-1. Asegúrate de tener el archivo JSON en tu teléfono
-2. Abre la app
-3. Ve a la pestaña **"Ajustes"**
-4. En la sección **"Sincronización de datos"**, toca **"Importar datos"**
-5. Selecciona el archivo desde tu gestor de archivos
-6. Confirma que deseas reemplazar tus datos actuales
-7. ¡Listo! Tus datos están sincronizados
-
-## ⚠️ Consideraciones importantes
-
-### Datos incluidos en la exportación:
 - ✅ Todos los traslados registrados
 - ✅ Todas las rutas personalizadas
 - ✅ Todos los tipos de traslado
 - ✅ Configuración de predicción
 - ✅ Estado del cronómetro (si está activo)
 
-### Al importar:
-- ⚠️ **Los datos actuales serán reemplazados completamente**
-- ⚠️ Esta acción no se puede deshacer
-- ⚠️ Asegúrate de exportar tus datos actuales antes si quieres conservarlos
+## 📱 Usar la app en múltiples dispositivos
 
-## 🔄 Flujo de trabajo recomendado
+### Escenario 1: Ya usas la app en la web, quieres instalarla en tu móvil
 
-### Opción 1: Web como principal
-1. Registra principalmente en la web
-2. Periódicamente exporta los datos
-3. Importa en tu móvil para consultar en movimiento
+1. En la web, ve a **Ajustes** e inicia sesión con GitHub
+2. Instala la app en tu móvil (ver [INSTALACION_MOVIL.md](INSTALACION_MOVIL.md))
+3. Abre la app móvil
+4. Ve a **Ajustes** e inicia sesión con la **misma cuenta de GitHub**
+5. ¡Todos tus datos aparecerán automáticamente!
 
-### Opción 2: Móvil como principal
-1. Registra principalmente en la app móvil
-2. Periódicamente exporta los datos
-3. Importa en la web para análisis más detallado
+### Escenario 2: Ya usas la app en el móvil, quieres usarla en la web
 
-### Opción 3: Uso mixto
-1. Usa ambas plataformas según convenga
-2. Al final del día/semana, decide cuál tiene los datos más completos
-3. Exporta desde ese dispositivo
-4. Importa en el otro dispositivo
+1. En el móvil, ve a **Ajustes** e inicia sesión con GitHub
+2. Abre un navegador en tu computadora
+3. Ve a la URL de la app web
+4. Ve a **Ajustes** e inicia sesión con la **misma cuenta de GitHub**
+5. ¡Todos tus datos aparecerán automáticamente!
 
-## 💡 Consejos
+### Escenario 3: Usas múltiples dispositivos
 
-- **Respalda regularmente**: Exporta tus datos semanalmente como respaldo de seguridad
-- **Nombre descriptivo**: Renombra los archivos con información útil (ej: `traslados-enero-2024.json`)
-- **Usa la nube**: Guarda los respaldos en Google Drive, Dropbox o similar para acceso fácil
-- **Antes de actualizar**: Exporta tus datos antes de actualizar la app o cambiar de dispositivo
+Puedes usar la app en tantos dispositivos como quieras:
+- Computadora del trabajo
+- Computadora de casa
+- Celular
+- Tablet
+
+Solo asegúrate de iniciar sesión con la **misma cuenta de GitHub** en todos ellos.
+
+## 💡 Ventajas de la sincronización automática
+
+### Antes (sincronización manual):
+❌ Tenías que exportar manualmente un archivo  
+❌ Transferir el archivo entre dispositivos  
+❌ Importar el archivo en cada dispositivo  
+❌ Perder datos si olvidabas sincronizar  
+
+### Ahora (sincronización automática):
+✅ Inicias sesión una sola vez en cada dispositivo  
+✅ Todo se sincroniza automáticamente  
+✅ Siempre tienes tus datos al día  
+✅ Nunca pierdes información  
+
+## 🔒 Seguridad y privacidad
+
+- **Tus datos son privados**: Solo tú puedes acceder a ellos con tu cuenta de GitHub
+- **Cifrado**: Los datos se transmiten de forma segura
+- **Sin terceros**: Los datos solo se comparten entre tus propios dispositivos
+- **Control total**: Puedes revocar el acceso en cualquier momento desde GitHub
+
+## 📤 Respaldo manual (opcional)
+
+Aunque la sincronización automática mantiene tus datos seguros, puedes crear respaldos manuales adicionales:
+
+### Exportar datos:
+1. Ve a **Ajustes**
+2. En la sección **"Respaldo Manual"**, haz clic en **"Exportar respaldo"**
+3. Se descargará un archivo JSON con todos tus datos
+
+### Importar datos:
+1. Ve a **Ajustes**
+2. En la sección **"Respaldo Manual"**, haz clic en **"Restaurar desde respaldo"**
+3. Selecciona el archivo JSON
+4. Confirma que deseas reemplazar tus datos actuales
+
+⚠️ **Importante**: Al importar un respaldo, los datos actuales serán reemplazados completamente.
 
 ## 🆘 Solución de problemas
 
-### "Error al importar datos"
-- Verifica que el archivo sea un JSON válido
-- Asegúrate de usar un archivo exportado desde esta app
-- Intenta exportar nuevamente desde el dispositivo origen
+### "Sin sesión activa" en Ajustes
+- Necesitas iniciar sesión con GitHub para sincronizar datos
+- Haz clic en "Iniciar sesión con GitHub" en la tarjeta de estado
 
-### "El archivo no se descarga"
-- Verifica los permisos de almacenamiento en tu dispositivo
-- Prueba usando un navegador diferente
-- En móvil, verifica que tengas espacio disponible
+### No veo mis datos en un nuevo dispositivo
+1. Verifica que hayas iniciado sesión con la **misma cuenta de GitHub** en ambos dispositivos
+2. Asegúrate de tener conexión a internet
+3. Espera unos segundos para que se complete la sincronización
+4. Refresca la app (cierra y abre nuevamente)
 
-### "No encuentro el archivo en mi móvil"
-- Busca en la carpeta `Descargas` o `Downloads`
-- Usa un gestor de archivos como Google Files
-- El archivo tiene extensión `.json`
+### Mis datos no se sincronizan
+1. Verifica tu conexión a internet
+2. Asegúrate de haber iniciado sesión en todos los dispositivos
+3. Ve a **Ajustes** y verifica que aparezca tu nombre de usuario de GitHub
+4. Si el problema persiste, intenta cerrar sesión y volver a iniciar
 
-## 📱 Formato del archivo
+### Quiero usar diferentes cuentas en diferentes dispositivos
+- Cada cuenta de GitHub tendrá su propio conjunto de datos independiente
+- Los datos no se comparten entre diferentes cuentas
+- Asegúrate de usar la misma cuenta si quieres los mismos datos
 
-El archivo de exportación es un JSON con esta estructura:
+## 📊 Indicador de sincronización
 
-```json
-{
-  "version": "1.0",
-  "exportDate": "2024-01-15T10:30:00.000Z",
-  "data": {
-    "commutes": [...],
-    "routes": [...],
-    "commuteTypes": [...],
-    "predictionSettings": {...}
-  }
-}
-```
+En la parte superior derecha de la app verás un indicador que muestra el estado de sincronización:
 
-Este archivo es legible por humanos, así que puedes abrirlo con cualquier editor de texto para verificar su contenido.
+- 🟢 **Verde con palomita**: Datos sincronizados correctamente
+- 🟡 **Amarillo con reloj**: Sincronizando datos
+- 🔴 **Rojo con advertencia**: Error de sincronización (verifica tu conexión)
+
+## 🎯 Consejos
+
+- **Primera vez**: Inicia sesión en el dispositivo que tiene más datos registrados
+- **Respaldos periódicos**: Aunque la sincronización es automática, es buena idea exportar un respaldo manual cada mes
+- **Cambio de dispositivo**: Si cambias de celular o computadora, solo inicia sesión con tu cuenta de GitHub en el nuevo dispositivo
+- **Sin internet**: La app funciona offline, los datos se sincronizarán automáticamente cuando te conectes

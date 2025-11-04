@@ -11,7 +11,8 @@ Aplicación móvil para registrar y analizar tiempos de traslado en la Ruta Jasm
 - 🎯 **Tipos Personalizables**: Define tus propios tipos de traslados (trabajo, escuela, etc.)
 - 📱 **Historial Completo**: Revisa, edita y elimina traslados pasados
 - 🌓 **Modo Oscuro**: Interfaz adaptable a tus preferencias
-- 🔄 **Sincronización Multiplataforma**: Exporta e importa datos entre web y móvil
+- 🔄 **Sincronización Automática**: Datos sincronizados en tiempo real entre todos tus dispositivos
+- 🔐 **Inicio de Sesión con GitHub**: Accede a tus datos desde cualquier dispositivo
 
 ## 🚀 Inicio Rápido
 
@@ -112,12 +113,14 @@ src/
    - Añade o edita rutas personalizadas
    - Crea tipos de traslados personalizados
    - Configura predicciones de salida
-   - Exporta/importa tus datos para sincronización
+   - Inicia sesión con GitHub para sincronización automática
 
 5. **Sincronizar entre Dispositivos**:
-   - En Ajustes, usa "Exportar datos" para guardar un respaldo
-   - Transfiere el archivo JSON a otro dispositivo
-   - Usa "Importar datos" para cargar tus datos
+   - Ve a la pestaña "Ajustes"
+   - Haz clic en "Iniciar sesión con GitHub"
+   - Autoriza la aplicación
+   - Abre la app en cualquier otro dispositivo e inicia sesión con la misma cuenta
+   - ¡Tus datos se sincronizarán automáticamente!
    - Ver [SYNC_GUIDE.md](./SYNC_GUIDE.md) para guía detallada
 
 ## 🤝 Contribuir
