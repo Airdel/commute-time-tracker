@@ -7,10 +7,11 @@ Aplicación móvil para registrar y analizar tiempos de traslado en la Ruta Jasm
 - 📝 **Registro Rápido**: Cronómetro integrado para registrar traslados en tiempo real
 - 📊 **Estadísticas Inteligentes**: Analiza tus patrones de traslado con gráficas visuales
 - 🔮 **Predicción de Salidas**: Sistema que sugiere cuándo salir basado en tu historial
-- 🛣️ **Múltiples Rutas**: Gestiona diferentes rutas de transporte
+- 🛣️ **Múltiples Rutas**: Gestiona diferentes rutas de transporte (camión y motoneta)
 - 🎯 **Tipos Personalizables**: Define tus propios tipos de traslados (trabajo, escuela, etc.)
 - 📱 **Historial Completo**: Revisa, edita y elimina traslados pasados
 - 🌓 **Modo Oscuro**: Interfaz adaptable a tus preferencias
+- 🔄 **Sincronización Multiplataforma**: Exporta e importa datos entre web y móvil
 
 ## 🚀 Inicio Rápido
 
@@ -110,7 +111,14 @@ src/
 4. **Gestionar Configuración**:
    - Añade o edita rutas personalizadas
    - Crea tipos de traslados personalizados
-   - Exporta/importa tus datos
+   - Configura predicciones de salida
+   - Exporta/importa tus datos para sincronización
+
+5. **Sincronizar entre Dispositivos**:
+   - En Ajustes, usa "Exportar datos" para guardar un respaldo
+   - Transfiere el archivo JSON a otro dispositivo
+   - Usa "Importar datos" para cargar tus datos
+   - Ver [SYNC_GUIDE.md](./SYNC_GUIDE.md) para guía detallada
 
 ## 🤝 Contribuir
 

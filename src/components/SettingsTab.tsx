@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useKV } from '@github/spark/hooks';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,8 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Route, CommuteType, PredictionSettings, TransportMethod } from '@/types/commute';
-import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle } from '@phosphor-icons/react';
+import { Route, CommuteType, PredictionSettings, TransportMethod, Commute } from '@/types/commute';
+import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
 const DEFAULT_ROUTES: Route[] = [
@@ -28,6 +28,7 @@ export function SettingsTab() {
     bufferMinutes: 5,
     daysToAnalyze: 30,
   });
+  const [commutes, setCommutes] = useKV<Commute[]>('commutes', []);
 
   const [showRouteDialog, setShowRouteDialog] = useState(false);
   const [showTypeDialog, setShowTypeDialog] = useState(false);
@@ -40,6 +41,7 @@ export function SettingsTab() {
     transportMethod: 'bus' as TransportMethod
   });
   const [typeForm, setTypeForm] = useState({ name: '', icon: 'map-pin', description: '' });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const openRouteDialog = (route?: Route) => {
     if (route) {
@@ -156,6 +158,85 @@ export function SettingsTab() {
     toast.success('Configuración de predicción guardada');
   };
 
+  const handleExportData = async () => {
+    try {
+      const exportData = {
+        version: '1.0',
+        exportDate: new Date().toISOString(),
+        data: {
+          commutes: commutes || [],
+          routes: routes || [],
+          commuteTypes: commuteTypes || [],
+          predictionSettings: predictionSettings || {
+            workStartTime: '08:00',
+            bufferMinutes: 5,
+            daysToAnalyze: 30,
+          },
+        },
+      };
+
+      const dataStr = JSON.stringify(exportData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `traslados-backup-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      toast.success('Datos exportados correctamente');
+    } catch (error) {
+      console.error('Error al exportar datos:', error);
+      toast.error('Error al exportar datos');
+    }
+  };
+
+  const handleImportData = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const importData = JSON.parse(text);
+
+      if (!importData.version || !importData.data) {
+        toast.error('Archivo de respaldo inválido');
+        return;
+      }
+
+      if (confirm('¿Deseas reemplazar todos tus datos actuales con los datos importados? Esta acción no se puede deshacer.')) {
+        if (importData.data.commutes) {
+          setCommutes(importData.data.commutes);
+        }
+        if (importData.data.routes) {
+          setRoutes(importData.data.routes);
+        }
+        if (importData.data.commuteTypes) {
+          setCommuteTypes(importData.data.commuteTypes);
+        }
+        if (importData.data.predictionSettings) {
+          setPredictionSettings(importData.data.predictionSettings);
+        }
+
+        toast.success(`Datos importados correctamente. ${importData.data.commutes?.length || 0} traslados restaurados.`);
+      }
+    } catch (error) {
+      console.error('Error al importar datos:', error);
+      toast.error('Error al leer el archivo. Verifica que sea un respaldo válido.');
+    }
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const colorOptions = [
     { label: 'Azul', value: 'oklch(0.45 0.15 250)' },
     { label: 'Verde', value: 'oklch(0.55 0.15 150)' },
@@ -167,6 +248,52 @@ export function SettingsTab() {
 
   return (
     <div className="space-y-6">
+      <Card className="p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Database size={20} weight="bold" className="text-primary" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Sincronización de datos</h2>
+            <p className="text-sm text-muted-foreground">
+              Exporta e importa tus datos para usarlos en múltiples dispositivos
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="p-4 bg-muted/50 rounded-lg">
+            <p className="text-sm text-foreground mb-3">
+              Exporta todos tus traslados, rutas y configuración a un archivo. Luego importa este archivo en otro dispositivo para tener tus datos sincronizados.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button onClick={handleExportData} className="gap-2 flex-1">
+                <Download size={20} weight="bold" />
+                Exportar datos
+              </Button>
+              <Button onClick={handleImportData} variant="secondary" className="gap-2 flex-1">
+                <Upload size={20} weight="bold" />
+                Importar datos
+              </Button>
+            </div>
+          </div>
+
+          <div className="text-xs text-muted-foreground space-y-1 pt-2">
+            <p>• <strong>Exportar:</strong> Descarga un archivo JSON con todos tus datos</p>
+            <p>• <strong>Importar:</strong> Sube el archivo en tu app móvil o en otro navegador</p>
+            <p>• Los datos actuales serán reemplazados al importar</p>
+          </div>
+        </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+      </Card>
+
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div>

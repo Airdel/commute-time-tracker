@@ -86,6 +86,15 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Progression**: Clic en botón → Tema cambia instantáneamente → Preferencia se guarda y persiste entre sesiones
 - **Success criteria**: Tema persiste entre sesiones y recargas; transición es suave; todos los componentes se adaptan correctamente
 
+### Sincronización de Datos Multiplataforma
+- **Functionality**: Exportar e importar todos los datos (traslados, rutas, tipos, configuración) mediante archivos JSON para uso en múltiples dispositivos
+- **Purpose**: Permitir al usuario acceder a sus datos tanto en la web como en la app móvil instalada, manteniendo sincronización manual entre dispositivos
+- **Trigger**: Usuario navega a pestaña "Ajustes" y usa botones de exportar/importar en la sección de sincronización
+- **Progression**: 
+  - Exportar: Clic en "Exportar datos" → Archivo JSON se descarga automáticamente con fecha en el nombre → Usuario puede transferir archivo a otro dispositivo
+  - Importar: Clic en "Importar datos" → Seleccionar archivo JSON → Confirmar reemplazo de datos → Datos se cargan en el dispositivo actual
+- **Success criteria**: Los datos exportados incluyen todos los traslados, rutas, tipos y configuración; al importar, todos los datos se restauran correctamente; el archivo tiene formato legible y versionado; funciona tanto en web como en app móvil Android
+
 ## Edge Case Handling
 
 - **Sin traslados registrados aún** - Mostrar estado vacío con mensaje alentador y prominente llamado a la acción "Registrar primer traslado"
@@ -95,6 +104,9 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Tiempos de traslado muy largos** - Manejar casos donde usuario olvida detener cronómetro (solicitar confirmación para viajes >3 horas)
 - **Eliminación de rutas/tipos en uso** - Prevenir eliminación de rutas predeterminadas y tipos base; permitir edición en su lugar
 - **Predicción sin datos suficientes** - Mostrar mensaje indicando que se necesitan al menos 3 traslados del tipo para generar predicción
+- **Archivo de importación inválido** - Validar estructura del JSON antes de importar; mostrar mensaje de error claro si el archivo está corrupto o no es un respaldo válido
+- **Importación en dispositivo con datos existentes** - Advertir al usuario que los datos actuales serán reemplazados; solicitar confirmación explícita antes de proceder
+- **Fallos en descarga/subida de archivos** - Manejar errores de permisos del sistema de archivos; mostrar mensajes de error informativos
 
 ## Design Direction
 
@@ -181,6 +193,8 @@ Las animaciones deben sentirse ágiles y con propósito, reflejando el ritmo rá
   - Pencil/Trash (para acciones de editar/eliminar)
   - Moon/Sun (para toggle de tema)
   - TrendUp/TrendDown (para indicadores de estadísticas)
+  - Download/Upload (para exportar/importar datos)
+  - Database (para sección de sincronización)
   
 - **Spacing**: 
   - Container padding: p-6 en desktop, p-4 en mobile
