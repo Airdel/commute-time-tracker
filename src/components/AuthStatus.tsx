@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-
-  login: 'usuario',
+import { Card } from '@/components/ui/card';
+import { CheckCircle, GitBranch } from '@phosphor-icons/react';
 
 const HARDCODED_USER = {
   login: 'usuario',
@@ -9,33 +9,33 @@ const HARDCODED_USER = {
   avatarUrl: ''
 };
 
-          <div className="flex
-          
-              Propietario
+export function AuthStatus() {
+  return (
+    <Card className="p-4">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Avatar>
+            <AvatarImage src={HARDCODED_USER.avatarUrl} alt={HARDCODED_USER.login} />
+            <AvatarFallback>{HARDCODED_USER.login.charAt(0).toUpperCase()}</AvatarFallback>
+          </Avatar>
+          <div>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-foreground">@{HARDCODED_USER.login}</p>
+              <Badge variant="secondary" className="text-xs">
+                <CheckCircle size={12} weight="fill" className="mr-1" />
+                Propietario
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              <GitBranch size={12} weight="bold" />
+              {HARDCODED_USER.email}
+            </p>
           </div>
-            <Git
-          </p>
-        <Badge variant="ou
-        </Badge>
-    </Card>
-}
-
-          <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold text-foreground">@{HARDCODED_USER.login}</p>
-            <Badge variant="secondary" className="text-xs">
-              <CheckCircle size={12} weight="fill" className="mr-1" />
-              Propietario
-            </Badge>
-          </div>
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            <GitBranch size={12} weight="bold" />
-            {HARDCODED_USER.email}
-          </p>
         </div>
         <Badge variant="outline" className="text-xs text-accent border-accent/50">
           Activa
         </Badge>
       </div>
-
-
-
+    </Card>
+  );
+}
