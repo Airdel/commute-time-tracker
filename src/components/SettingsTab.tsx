@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Route, CommuteType, PredictionSettings, TransportMethod, Commute } from '@/types/commute';
-import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database, CloudArrowUp, Devices } from '@phosphor-icons/react';
+import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database, CloudArrowUp, Devices, CheckCircle } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { AuthStatus } from '@/components/AuthStatus';
 
@@ -249,6 +249,27 @@ export function SettingsTab() {
 
   return (
     <div className="space-y-6">
+      <Card className="p-6 border-primary/50 bg-primary/5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+            <CheckCircle size={20} weight="fill" className="text-primary" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Aplicación Personal Configurada</h2>
+            <p className="text-sm text-muted-foreground">
+              Esta app está vinculada exclusivamente a tu cuenta
+            </p>
+          </div>
+        </div>
+        <div className="p-4 bg-background/50 rounded-lg">
+          <p className="text-sm text-foreground leading-relaxed">
+            ✅ Tu aplicación está configurada para uso personal. Todos los datos se sincronizan automáticamente 
+            con tu cuenta y nadie más puede acceder a ellos. Esta configuración garantiza que solo tú puedas 
+            ver y modificar tus traslados desde cualquier dispositivo donde inicies sesión.
+          </p>
+        </div>
+      </Card>
+
       <AuthStatus />
 
       <Card className="p-6 border-accent/50 bg-accent/5">
