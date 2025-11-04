@@ -28,3 +28,5 @@ declare global {
   }
   const spark: SparkAPI;
 }
+
+export {}

@@ -28,6 +28,7 @@
     },
   },
   "include": [
-    "src"
+    "src",
+    "src/vite-end.d.ts"
   ]
 }
