@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { SignIn, SignOut, GitBranch, CheckCircle, Warning } from '@phosphor-icons/react';
-import { toast } from 'sonner';
+import { SignIn, SignOut, GitBranch, CheckCircle, Warning } from '@phosphor-i
+
+  avatarUrl: string;
 
 interface UserInfo {
   avatarUrl: string;
@@ -14,115 +14,58 @@ interface UserInfo {
   login: string;
 }
 
-export function AuthStatus() {
-  const [user, setUser] = useState<UserInfo | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
     checkAuth();
-  }, []);
 
-  const checkAuth = async () => {
     try {
-      const userInfo = await window.spark.user();
-      setUser(userInfo);
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
+
+      setUser(null)
+      setLoading
   };
 
-  if (loading) {
-    return (
-      <Card className="p-4 border-muted">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-muted animate-pulse" />
-          <div className="flex-1 space-y-2">
-            <div className="h-4 bg-muted rounded w-32 animate-pulse" />
-            <div className="h-3 bg-muted rounded w-48 animate-pulse" />
+      <Card className="p-4 border
+         
+            <div className="h-4 bg-muted rounded 
           </div>
-        </div>
       </Card>
-    );
   }
-
-  const handleLogin = () => {
-    window.location.href = '/api/auth/login';
+  const handleL
   };
+  if 
+    
 
-  if (!user) {
-    return (
-      <Card className="p-4 border-destructive/50 bg-destructive/5">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-destructive/20 flex items-center justify-center flex-shrink-0">
-            <Warning size={24} weight="bold" className="text-destructive" />
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-destructive">Sin sesión activa</h3>
-              <Badge variant="destructive" className="text-xs">Desconectado</Badge>
-            </div>
-            <p className="text-sm text-muted-foreground mb-3">
-              Para sincronizar tus datos entre dispositivos, necesitas iniciar sesión con tu cuenta de GitHub.
+            
+              <Badge variant="destructive
+            <p className="text-sm text-muted-fore
             </p>
-            <div className="flex gap-2">
-              <Button onClick={handleLogin} size="sm" className="gap-2">
-                <SignIn size={20} weight="bold" />
+              <Button onClick={handleLogin} 
                 Iniciar sesión con GitHub
-              </Button>
-              <Button onClick={checkAuth} variant="outline" size="sm" className="gap-2">
-                Verificar sesión
-              </Button>
-            </div>
-          </div>
-        </div>
+              <Button onClick={checkAuth} variant="outline" size="sm" c
+              </
+          </di
       </Card>
-    );
   }
+  c
 
-  const handleLogout = () => {
-    if (confirm('¿Estás seguro que deseas cerrar sesión? Tus datos permanecerán seguros y se sincronizarán cuando vuelvas a iniciar sesión.')) {
-      window.location.href = '/api/auth/logout';
-    }
   };
-
   return (
-    <Card className="p-4 border-accent/50 bg-accent/5">
-      <div className="flex items-start gap-3">
-        <Avatar className="w-10 h-10 ring-2 ring-accent/20">
-          <AvatarImage src={user.avatarUrl} alt={user.login} />
-          <AvatarFallback>{user.login.slice(0, 2).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="font-semibold text-foreground truncate">{user.login}</h3>
+    
+
+        </Avat
+          <d
             <Badge variant="secondary" className="text-xs gap-1">
-              <CheckCircle size={14} weight="fill" />
               Conectado
-            </Badge>
             {user.isOwner && (
-              <Badge variant="outline" className="text-xs gap-1">
                 <GitBranch size={14} weight="bold" />
-                Propietario
-              </Badge>
-            )}
+              </
           </div>
-          <p className="text-sm text-muted-foreground truncate mb-3">{user.email}</p>
-          <div className="flex items-start gap-2 p-2 bg-muted/50 rounded-md mb-3">
-            <CheckCircle size={16} weight="bold" className="text-accent mt-0.5 flex-shrink-0" />
+          <div className="flex items-start gap-2 p-2 bg-mu
             <p className="text-xs text-muted-foreground">
-              Tus registros se sincronizan automáticamente con tu cuenta de GitHub.
             </p>
-          </div>
-          <Button onClick={handleLogout} variant="outline" size="sm" className="gap-2 w-full">
-            <SignOut size={20} weight="bold" />
+          <Button 
             Cerrar sesión
-          </Button>
         </div>
-      </div>
     </Card>
-  );
 }
 
 
@@ -138,11 +81,44 @@ export function AuthStatus() {
 
 
 
+  const handleLogout = () => {
+    if (confirm('¿Estás seguro que deseas cerrar sesión? Tus datos permanecerán seguros y se sincronizarán cuando vuelvas a iniciar sesión.')) {
+      window.location.href = '/api/auth/logout';
+    }
+  };
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <p className="text-sm text-muted-foreground truncate mb-3">{user.email}</p>
+          <div className="flex items-start gap-2 p-2 bg-muted/50 rounded-md mb-3">
+
+
+
+
+
+          <Button onClick={handleLogout} variant="outline" size="sm" className="gap-2 w-full">
+            <SignOut size={20} weight="bold" />
+            Cerrar sesión
+          </Button>
 
 
 
