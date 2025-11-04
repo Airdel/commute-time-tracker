@@ -1,6 +1,6 @@
 # 🚌 Registro de Traslados - Jasminez
 
-Aplicación PWA (Progressive Web App) para registrar y analizar tiempos de traslado en la Ruta Jasminez en Tepic, Nayarit.
+Aplicación móvil para registrar y analizar tiempos de traslado en la Ruta Jasminez en Tepic, Nayarit.
 
 ## ✨ Características
 
@@ -12,8 +12,6 @@ Aplicación PWA (Progressive Web App) para registrar y analizar tiempos de trasl
 - 📱 **Historial Completo**: Revisa, edita y elimina traslados pasados
 - 🌓 **Modo Oscuro**: Interfaz adaptable a tus preferencias
 - 🔄 **Sincronización Automática**: Datos sincronizados en tiempo real entre todos tus dispositivos
-- 📲 **PWA Instalable**: Instala como app en cualquier dispositivo (Android, iOS, Desktop)
-- 🔌 **Funciona Offline**: Usa la app sin conexión a internet
 - 🔐 **Inicio de Sesión con GitHub**: Accede a tus datos desde cualquier dispositivo
 
 ## 🚀 Inicio Rápido
@@ -31,41 +29,40 @@ npm run dev
 npm run build
 ```
 
-## 📲 Instalar como App (PWA)
+### 📱 Compilar para Android
 
-**¡Ya no necesitas compilar un APK!** Esta aplicación es una PWA que puedes instalar directamente desde tu navegador.
+Esta app usa **Capacitor** para convertirse en una aplicación Android nativa.
 
-### En Android (Chrome/Edge)
-1. Abre la aplicación en Chrome o Edge
-2. Toca el menú (⋮) en la esquina superior derecha
-3. Selecciona "Instalar aplicación" o "Añadir a pantalla de inicio"
-4. Confirma la instalación
-5. ¡Listo! La app estará en tu pantalla de inicio
+**Guía completa**: Ver [DEPLOYMENT.md](./DEPLOYMENT.md)
 
-### En iOS (Safari)
-1. Abre la aplicación en Safari
-2. Toca el botón de compartir (⬆️)
-3. Desplázate y selecciona "Añadir a pantalla de inicio"
-4. Toca "Añadir"
-5. ¡Listo! La app estará en tu pantalla de inicio
+**Comandos rápidos**:
 
-### En Desktop (Chrome/Edge)
-1. Abre la aplicación en Chrome o Edge
-2. Busca el icono de instalación (+) en la barra de direcciones
-3. Haz clic en "Instalar"
-4. ¡Listo! La app se abrirá en su propia ventana
+```bash
+# 1. Construir la aplicación web
+npm run build
 
-**Ver [PWA_GUIDE.md](./PWA_GUIDE.md) para guía detallada de instalación**
+# 2. Sincronizar con Android
+npx cap sync android
 
-## ✅ Ventajas de la PWA sobre Capacitor
+# 3. Abrir en Android Studio
+npx cap open android
 
-- ✅ **Sin compilación**: No necesitas Android Studio ni compilar APKs
-- ✅ **Actualizaciones instantáneas**: Los cambios se reflejan automáticamente
-- ✅ **Sin problemas de sincronización**: Los datos se sincronizan perfectamente
-- ✅ **Multiplataforma**: Funciona en Android, iOS y Desktop con el mismo código
-- ✅ **Instalable**: Se instala como app nativa desde el navegador
-- ✅ **Offline**: Funciona sin conexión a internet
-- ✅ **Actualización automática**: Se actualiza en segundo plano
+# 4. O ejecutar directamente
+npx cap run android
+```
+
+Ver [QUICK_COMMANDS.md](./QUICK_COMMANDS.md) para más comandos útiles.
+
+## 📦 Instalación en tu Teléfono
+
+### Opción 1: Descargar APK (Más Fácil)
+1. Ve a [Releases](../../releases) en GitHub
+2. Descarga el archivo `app-release.apk`
+3. Instala en tu dispositivo Android
+4. Acepta instalar desde fuentes desconocidas si se solicita
+
+### Opción 2: Compilar desde Código
+Ver la [Guía de Despliegue Completa](./DEPLOYMENT.md)
 
 ## 🛠️ Tecnologías
 
@@ -73,7 +70,7 @@ npm run build
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Iconos**: Phosphor Icons
 - **Gráficas**: Recharts
-- **PWA**: Service Worker + Web App Manifest
+- **Mobile**: Capacitor
 - **Build**: Vite
 - **Persistencia**: Spark KV Storage
 
@@ -86,18 +83,11 @@ src/
 │   ├── LoggerTab.tsx   # Pestaña de registro
 │   ├── HistoryTab.tsx  # Pestaña de historial
 │   ├── StatsTab.tsx    # Pestaña de estadísticas
-│   ├── SettingsTab.tsx # Pestaña de ajustes
-│   ├── InstallPrompt.tsx  # Prompt de instalación PWA
-│   └── UpdatePrompt.tsx   # Notificación de actualizaciones
+│   └── SettingsTab.tsx # Pestaña de ajustes
 ├── types/              # Tipos TypeScript
 ├── lib/                # Utilidades
 ├── hooks/              # Hooks personalizados
 └── App.tsx             # Componente principal
-public/
-├── manifest.json       # Configuración PWA
-├── sw.js              # Service Worker
-├── icon-192.svg       # Icono pequeño
-└── icon-512.svg       # Icono grande
 ```
 
 ## 🎯 Uso
@@ -132,11 +122,6 @@ public/
    - Abre la app en cualquier otro dispositivo e inicia sesión con la misma cuenta
    - ¡Tus datos se sincronizarán automáticamente!
    - Ver [SYNC_GUIDE.md](./SYNC_GUIDE.md) para guía detallada
-
-6. **Instalar como App**:
-   - El navegador te mostrará automáticamente un banner para instalar
-   - O sigue las instrucciones de instalación según tu dispositivo
-   - Una vez instalada, la app funcionará offline y recibirá actualizaciones automáticas
 
 ## 🤝 Contribuir
 
