@@ -23,7 +23,7 @@ export function AuthStatus() {
     setLoading(true);
     try {
       setError(null);
-      const userInfo = await spark.user();
+      const userInfo = await window.spark.user();
       setUser(userInfo);
     } catch (err) {
       setUser(null);
