@@ -5,9 +5,6 @@ import { ErrorFallback } from './ErrorFallback.tsx'
 
 import App from './App.tsx'
 
-import "./main.css"
-import "./styles/theme.css"
-
 export default function Root() {
   return (
     <StrictMode>
@@ -15,5 +12,12 @@ export default function Root() {
         <App />
       </ErrorBoundary>
     </StrictMode>
-  );
+  )
 }
+
+
+
+
+
+
+
