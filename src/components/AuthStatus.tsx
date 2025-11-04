@@ -3,11 +3,11 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
 import { CheckCircle, GitBranch } from '@phosphor-icons/react';
 
-const HARDCODED_USER = {
-  login: 'usuario',
-  email: 'usuario@ejemplo.com',
-  avatarUrl: ''
 };
+export function Aut
+    <Card className="p-4">
+        <div cl
+  
 
 export function AuthStatus() {
   return (
@@ -30,12 +30,12 @@ export function AuthStatus() {
               <GitBranch size={12} weight="bold" />
               {HARDCODED_USER.email}
             </p>
-          </div>
-        </div>
-        <Badge variant="outline" className="text-xs text-accent border-accent/50">
-          Activa
-        </Badge>
-      </div>
+
+
+
+
+
+
     </Card>
   );
 }
