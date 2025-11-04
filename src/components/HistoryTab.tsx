@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { Clock, Pencil, Trash, Bus, MapPin } from '@phosphor-icons/react';
+import { Clock, Pencil, Trash, Bus, MapPin, Motorcycle } from '@phosphor-icons/react';
 import { formatDuration, formatTime, formatDate, calculateDuration } from '@/lib/time-utils';
 import { toast } from 'sonner';
 
@@ -149,6 +149,19 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute, routes,
                                 <Clock size={14} weight="bold" />
                                 {formatDuration(commute.duration)}
                               </Badge>
+                              <Badge variant="outline" className="gap-1">
+                                {commute.transportMethod === 'motorbike' ? (
+                                  <>
+                                    <Motorcycle size={14} weight="bold" />
+                                    Motoneta
+                                  </>
+                                ) : (
+                                  <>
+                                    <Bus size={14} weight="bold" />
+                                    Camión
+                                  </>
+                                )}
+                              </Badge>
                               {route && (
                                 <Badge
                                   variant="secondary"
@@ -229,21 +242,15 @@ export function HistoryTab({ commutes, onUpdateCommute, onDeleteCommute, routes,
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="edit-route">Ruta</Label>
+              <Label htmlFor="edit-route">Ruta / Método de transporte</Label>
               <Select value={editForm.routeId} onValueChange={(value) => setEditForm({ ...editForm, routeId: value })}>
                 <SelectTrigger id="edit-route">
-                  <SelectValue placeholder="Selecciona ruta" />
+                  <SelectValue placeholder="Selecciona ruta o método" />
                 </SelectTrigger>
                 <SelectContent>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: route.color }}
-                        />
-                        {route.name}
-                      </div>
+                      {route.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

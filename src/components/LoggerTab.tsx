@@ -66,12 +66,15 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
   };
 
   const startTimer = () => {
-    if (!selectedType) return;
+    if (!selectedType || !selectedRoute) return;
 
+    const route = routes.find(r => r.id === selectedRoute);
+    
     setTimerState({
       isActive: true,
       type: selectedType,
       routeId: selectedRoute,
+      transportMethod: route?.transportMethod || 'bus',
       startTime: new Date().toISOString(),
     });
     setElapsedTime(0);
@@ -96,6 +99,7 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
       id: Date.now().toString(),
       type: timerState.type,
       routeId: timerState.routeId || undefined,
+      transportMethod: timerState.transportMethod || 'bus',
       departureTime: timerState.startTime,
       arrivalTime: new Date().toISOString(),
       duration,
@@ -138,10 +142,13 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
       return;
     }
 
+    const route = routes.find(r => r.id === manualForm.routeId);
+
     const commute: Commute = {
       id: Date.now().toString(),
       type: manualForm.type,
       routeId: manualForm.routeId,
+      transportMethod: route?.transportMethod || 'bus',
       departureTime: manualForm.departureTime,
       arrivalTime: manualForm.arrivalTime,
       duration,
@@ -286,21 +293,15 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="start-route">Ruta</Label>
+              <Label htmlFor="start-route">Ruta / Método de transporte</Label>
               <Select value={selectedRoute} onValueChange={setSelectedRoute}>
                 <SelectTrigger id="start-route">
-                  <SelectValue placeholder="Selecciona ruta" />
+                  <SelectValue placeholder="Selecciona ruta o método" />
                 </SelectTrigger>
                 <SelectContent>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: route.color }}
-                        />
-                        {route.name}
-                      </div>
+                      {route.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -343,21 +344,15 @@ export function LoggerTab({ timerState, setTimerState, onAddCommute, routes, com
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="manual-route">Ruta</Label>
+              <Label htmlFor="manual-route">Ruta / Método de transporte</Label>
               <Select value={manualForm.routeId} onValueChange={(value) => setManualForm({ ...manualForm, routeId: value })}>
                 <SelectTrigger id="manual-route">
-                  <SelectValue placeholder="Selecciona ruta" />
+                  <SelectValue placeholder="Selecciona ruta o método" />
                 </SelectTrigger>
                 <SelectContent>
                   {routes.map((route) => (
                     <SelectItem key={route.id} value={route.id}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: route.color }}
-                        />
-                        {route.name}
-                      </div>
+                      {route.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

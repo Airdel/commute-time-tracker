@@ -7,11 +7,13 @@ import { HistoryTab } from '@/components/HistoryTab';
 import { StatsTab } from '@/components/StatsTab';
 import { SettingsTab } from '@/components/SettingsTab';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { SyncIndicator } from '@/components/SyncIndicator';
 import { Bus } from '@phosphor-icons/react';
 import { Toaster } from '@/components/ui/sonner';
 
 const DEFAULT_ROUTES: Route[] = [
-  { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true },
+  { id: 'jasminez', name: 'Jasminez', color: 'oklch(0.45 0.15 250)', isDefault: true, transportMethod: 'bus' },
+  { id: 'motorbike', name: 'Motoneta Personal', color: 'oklch(0.55 0.22 25)', transportMethod: 'motorbike' },
 ];
 
 const DEFAULT_TYPES: CommuteType[] = [
@@ -62,7 +64,10 @@ function App() {
                 <p className="text-sm text-muted-foreground">Ruta Jasminez • Tepic, Nayarit</p>
               </div>
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-3">
+              <SyncIndicator />
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>

@@ -1,6 +1,6 @@
 # Planning Guide
 
-Una aplicación de registro de traslados que ayuda a usuarios en Tepic, Nayarit a monitorear sus tiempos de viaje en diversas rutas de camión, identificando patrones y mejorando la gestión del tiempo con predicciones inteligentes de horarios de salida.
+Una aplicación de registro de traslados que ayuda a usuarios en Tepic, Nayarit a monitorear sus tiempos de viaje en diversas rutas de camión y en motoneta personal, identificando patrones específicos por método de transporte y mejorando la gestión del tiempo con predicciones inteligentes de horarios de salida diferenciadas según el medio de transporte.
 
 **Experience Qualities**: 
 1. **Eficiente** - Registrar un traslado debe tomar segundos, con mínima fricción entre llegar y guardar el registro
@@ -37,12 +37,12 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Progression**: Seleccionar tipo de traslado → Seleccionar ruta → Captura automática de hora actual o ajuste manual → Agregar hora de llegada → Notas opcionales (número de camión, retrasos, etc.) → Guardar
 - **Success criteria**: Traslado registrado y almacenado en menos de 15 segundos; datos persisten entre sesiones
 
-### Gestión de Rutas
-- **Functionality**: Crear, editar y eliminar rutas de camión personalizadas con nombres y colores identificables
-- **Purpose**: Permitir a usuarios registrar diferentes rutas que toman regularmente y analizar sus patrones por ruta
+### Gestión de Rutas con Método de Transporte
+- **Functionality**: Crear, editar y eliminar rutas de transporte personalizadas (camión o motoneta) con nombres, colores identificables y método de transporte
+- **Purpose**: Permitir a usuarios registrar diferentes rutas que toman regularmente en distintos medios de transporte y analizar patrones específicos por método
 - **Trigger**: Usuario navega a pestaña "Ajustes" y gestiona rutas
-- **Progression**: Ver lista de rutas → Agregar nueva ruta con nombre y color → Editar rutas existentes → Eliminar rutas no utilizadas
-- **Success criteria**: Rutas persisten entre sesiones; se muestran en selectores al registrar traslados
+- **Progression**: Ver lista de rutas (incluyendo ruta predeterminada "Jasminez" para camión y "Motoneta Personal") → Agregar nueva ruta con nombre, método de transporte y color → Editar rutas existentes → Eliminar rutas no utilizadas
+- **Success criteria**: Rutas persisten entre sesiones; métodos de transporte se identifican claramente con íconos (Bus/Motorcycle); se muestran en selectores al registrar traslados
 
 ### Tipos de Traslado Personalizables
 - **Functionality**: Crear tipos de traslado personalizados más allá de "hacia/desde el trabajo" (ej: al gimnasio, a la escuela, al doctor)
@@ -51,12 +51,12 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Progression**: Ver tipos predeterminados → Agregar nuevos tipos con nombre y descripción → Editar o eliminar tipos personalizados
 - **Success criteria**: Tipos personalizados aparecen en todas las interfaces de la app
 
-### Sistema de Predicción de Salidas
-- **Functionality**: Analiza histórico de traslados para sugerir hora óptima de salida basada en hora de llegada deseada
-- **Purpose**: Ayudar a usuarios a planificar salidas para llegar a tiempo considerando variabilidad del tráfico
-- **Trigger**: Se muestra automáticamente en pestaña "Registro" para traslados hacia el trabajo
-- **Progression**: Usuario configura hora de entrada al trabajo y margen deseado → Sistema analiza últimos N días → Calcula percentil 75 de duración → Sugiere hora de salida conservadora y recomendada
-- **Success criteria**: Predicción se actualiza automáticamente con cada nuevo traslado; sugerencias son precisas y útiles
+### Sistema de Predicción de Salidas por Método de Transporte
+- **Functionality**: Analiza histórico de traslados segregado por método de transporte (bus/motoneta) para sugerir hora óptima de salida basada en hora de llegada deseada y medio de transporte específico
+- **Purpose**: Ayudar a usuarios a planificar salidas para llegar a tiempo considerando variabilidad del tráfico y diferencias de tiempo entre viajar en camión vs motoneta personal
+- **Trigger**: Se muestra automáticamente en pestaña "Registro" para traslados hacia el trabajo, con predicciones separadas para cada método de transporte disponible
+- **Progression**: Usuario configura hora de entrada al trabajo y margen deseado → Sistema analiza últimos N días por método de transporte → Calcula percentil 75 de duración para cada método → Muestra sugerencias separadas para camión y motoneta si hay datos suficientes (≥3 traslados por método)
+- **Success criteria**: Predicciones se actualizan automáticamente con cada nuevo traslado; sugerencias son diferenciadas y precisas por método; interfaz muestra claramente las diferencias de tiempo entre métodos
 
 ### Vista de Historial
 - **Functionality**: Lista cronológica de todos los traslados registrados con detalles clave (fecha, tipo, ruta, duración, notas)
@@ -65,19 +65,19 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Progression**: Ver lista ordenada por fecha (más reciente primero) → Tocar entrada para ver detalles completos → Opción de editar o eliminar
 - **Success criteria**: Todos los traslados se muestran correctamente; operaciones de edición/eliminación funcionan confiablemente
 
-### Panel de Estadísticas
-- **Functionality**: Estadísticas visuales mostrando tiempos promedio de traslado, viajes más rápidos/lentos, tendencias en el tiempo, con filtros por tipo y ruta
-- **Purpose**: Ayudar a usuarios a entender sus patrones de traslado y planificar en consecuencia
+### Panel de Estadísticas con Análisis por Método de Transporte
+- **Functionality**: Estadísticas visuales mostrando tiempos promedio de traslado, viajes más rápidos/lentos, tendencias en el tiempo, con filtros por tipo, ruta y método de transporte (bus/motoneta)
+- **Purpose**: Ayudar a usuarios a entender sus patrones de traslado según el medio de transporte utilizado, comparar eficiencia entre camión y motoneta, y planificar en consecuencia
 - **Trigger**: Usuario navega a pestaña "Estadísticas"
-- **Progression**: Ver tarjetas resumen → Filtrar por tipo de traslado o ruta → Ver gráfica de tiempos recientes → Comparar estadísticas entre tipos y rutas
-- **Success criteria**: Las estadísticas calculan correctamente; visualizaciones son claras y significativas; filtros funcionan correctamente
+- **Progression**: Ver tarjetas resumen → Filtrar por tipo de traslado, ruta o método de transporte → Ver gráfica de tiempos recientes → Comparar estadísticas entre tipos, rutas y métodos de transporte → Identificar cuándo es más conveniente usar motoneta vs camión
+- **Success criteria**: Las estadísticas calculan correctamente incluyendo breakdown por método de transporte; visualizaciones son claras y significativas; filtros funcionan correctamente; comparación entre métodos es intuitiva
 
-### Modo de Cronómetro Rápido
-- **Functionality**: Cronómetro en tiempo real que inicia al abordar el camión y se detiene al llegar
-- **Purpose**: Eliminar entrada manual de tiempo para usuarios activamente en traslado
-- **Trigger**: Usuario presiona botón "Iniciar viaje" y selecciona tipo y ruta
-- **Progression**: Seleccionar tipo y ruta → Cronómetro inicia → Usuario aborda camión → Cronómetro corre → Presionar "Terminar viaje" al llegar → Revisar y guardar con notas opcionales
-- **Success criteria**: Cronómetro corre con precisión; traslado se registra automáticamente con duración correcta
+### Modo de Cronómetro Rápido con Selección de Transporte
+- **Functionality**: Cronómetro en tiempo real que inicia al comenzar el traslado (en camión o motoneta) y se detiene al llegar
+- **Purpose**: Eliminar entrada manual de tiempo para usuarios activamente en traslado, registrando automáticamente el método de transporte utilizado
+- **Trigger**: Usuario presiona botón "Iniciar viaje" y selecciona tipo y ruta (que incluye el método de transporte)
+- **Progression**: Seleccionar tipo y ruta (que automáticamente define el método de transporte) → Cronómetro inicia → Usuario inicia traslado → Cronómetro corre → Presionar "Terminar viaje" al llegar → Revisar y guardar con método de transporte automáticamente registrado y notas opcionales
+- **Success criteria**: Cronómetro corre con precisión; traslado se registra automáticamente con duración correcta y método de transporte apropiado según la ruta seleccionada
 
 ### Modo Oscuro Funcional
 - **Functionality**: Toggle para cambiar entre modo claro y oscuro con persistencia de preferencia
@@ -85,6 +85,22 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Trigger**: Usuario presiona el botón de modo en el encabezado
 - **Progression**: Clic en botón → Tema cambia instantáneamente → Preferencia se guarda y persiste entre sesiones
 - **Success criteria**: Tema persiste entre sesiones y recargas; transición es suave; todos los componentes se adaptan correctamente
+
+### Sincronización de Datos Multiplataforma en Tiempo Real
+- **Functionality**: Sincronización automática y en tiempo real de todos los datos (traslados, rutas, tipos, configuración, estado del cronómetro) entre todos los dispositivos donde el usuario ha iniciado sesión
+- **Purpose**: Permitir al usuario acceder y actualizar sus datos desde cualquier dispositivo (web, móvil Android/iOS) con sincronización instantánea y automática, sin intervención manual
+- **Trigger**: Automático - los datos se sincronizan continuamente cuando hay conexión a internet; funciona por el sistema useKV integrado en Spark
+- **Progression**: 
+  - Usuario registra traslado en cualquier dispositivo → Datos se guardan localmente → Se sincronizan automáticamente a la nube → Otros dispositivos reciben actualización en tiempo real (< 1 segundo)
+  - Usuario inicia cronómetro en celular → Estado persiste → Abre web en computadora → Cronómetro continúa corriendo → Detiene desde cualquier dispositivo
+  - Funciona offline: Cambios se guardan localmente y se sincronizan cuando se recupera conexión
+- **Success criteria**: 
+  - Todos los datos se sincronizan automáticamente entre dispositivos en menos de 1 segundo
+  - El usuario puede iniciar sesión con GitHub en cualquier dispositivo y ver sus datos inmediatamente
+  - Los cambios realizados en un dispositivo aparecen automáticamente en otros dispositivos abiertos
+  - Estado del cronómetro persiste y se sincroniza entre sesiones
+  - Funciona correctamente tanto en web como en apps móviles (PWA o nativa)
+  - No se requiere exportar/importar archivos manualmente
 
 ## Edge Case Handling
 
@@ -95,6 +111,10 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 - **Tiempos de traslado muy largos** - Manejar casos donde usuario olvida detener cronómetro (solicitar confirmación para viajes >3 horas)
 - **Eliminación de rutas/tipos en uso** - Prevenir eliminación de rutas predeterminadas y tipos base; permitir edición en su lugar
 - **Predicción sin datos suficientes** - Mostrar mensaje indicando que se necesitan al menos 3 traslados del tipo para generar predicción
+- **Sin conexión a internet** - Los datos se guardan localmente y se sincronizan automáticamente cuando se recupera la conexión; mostrar indicador sutil de estado offline
+- **Conflictos de sincronización** - El sistema usa timestamps para resolver conflictos; la última modificación gana (last-write-wins)
+- **Múltiples dispositivos editando simultáneamente** - Los cambios se propagan en tiempo real; el estado se reconcilia automáticamente usando el modelo de datos de useKV
+- **Usuario no autenticado** - Los datos se guardan localmente; al iniciar sesión, se sincronizan a la nube y están disponibles en todos los dispositivos
 
 ## Design Direction
 
@@ -169,8 +189,9 @@ Las animaciones deben sentirse ágiles y con propósito, reflejando el ritmo rá
   - Theme toggle: Muestra icono correspondiente (sol/luna) según tema activo
   
 - **Icon Selection**: 
-  - Bus (para logo principal y estados vacíos)
-  - MapPin (para rutas)
+  - Bus (para logo principal, rutas de camión y estados vacíos)
+  - Motorcycle (para rutas de motoneta personal)
+  - MapPin (para rutas en general)
   - Tag (para tipos de traslado)
   - Play/Stop (para controles de cronómetro)
   - Clock (para visualizaciones de tiempo)
@@ -180,6 +201,8 @@ Las animaciones deben sentirse ágiles y con propósito, reflejando el ritmo rá
   - Pencil/Trash (para acciones de editar/eliminar)
   - Moon/Sun (para toggle de tema)
   - TrendUp/TrendDown (para indicadores de estadísticas)
+  - Download/Upload (para exportar/importar datos)
+  - Database (para sección de sincronización)
   
 - **Spacing**: 
   - Container padding: p-6 en desktop, p-4 en mobile

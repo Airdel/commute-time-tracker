@@ -1,8 +1,11 @@
+export type TransportMethod = 'bus' | 'motorbike';
+
 export interface Route {
   id: string;
   name: string;
   color: string;
   isDefault?: boolean;
+  transportMethod: TransportMethod;
 }
 
 export interface CommuteType {
@@ -16,6 +19,7 @@ export interface Commute {
   id: string;
   type: string;
   routeId?: string;
+  transportMethod: TransportMethod;
   departureTime: string;
   arrivalTime: string;
   duration: number;
@@ -28,6 +32,7 @@ export interface TimerState {
   isActive: boolean;
   type: string | null;
   routeId?: string | null;
+  transportMethod?: TransportMethod | null;
   startTime: string | null;
   targetArrivalTime?: string | null;
 }
