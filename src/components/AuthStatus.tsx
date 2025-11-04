@@ -47,6 +47,10 @@ export function AuthStatus() {
     );
   }
 
+  const handleLogin = () => {
+    window.location.href = '/api/auth/login';
+  };
+
   if (!user) {
     return (
       <Card className="p-4 border-destructive/50 bg-destructive/5">
@@ -62,15 +66,26 @@ export function AuthStatus() {
             <p className="text-sm text-muted-foreground mb-3">
               Para sincronizar tus datos entre dispositivos, necesitas iniciar sesión con tu cuenta de GitHub.
             </p>
-            <Button onClick={checkAuth} variant="outline" size="sm" className="gap-2">
-              <SignIn size={20} weight="bold" />
-              Verificar sesión
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={handleLogin} size="sm" className="gap-2">
+                <SignIn size={20} weight="bold" />
+                Iniciar sesión con GitHub
+              </Button>
+              <Button onClick={checkAuth} variant="outline" size="sm" className="gap-2">
+                Verificar sesión
+              </Button>
+            </div>
           </div>
         </div>
       </Card>
     );
   }
+
+  const handleLogout = () => {
+    if (confirm('¿Estás seguro que deseas cerrar sesión? Tus datos permanecerán seguros y se sincronizarán cuando vuelvas a iniciar sesión.')) {
+      window.location.href = '/api/auth/logout';
+    }
+  };
 
   return (
     <Card className="p-4 border-accent/50 bg-accent/5">
@@ -93,13 +108,17 @@ export function AuthStatus() {
               </Badge>
             )}
           </div>
-          <p className="text-sm text-muted-foreground truncate">{user.email}</p>
-          <div className="flex items-start gap-2 p-2 bg-muted/50 rounded-md mt-3">
+          <p className="text-sm text-muted-foreground truncate mb-3">{user.email}</p>
+          <div className="flex items-start gap-2 p-2 bg-muted/50 rounded-md mb-3">
             <CheckCircle size={16} weight="bold" className="text-accent mt-0.5 flex-shrink-0" />
             <p className="text-xs text-muted-foreground">
               Tus registros se sincronizan automáticamente con tu cuenta de GitHub.
             </p>
           </div>
+          <Button onClick={handleLogout} variant="outline" size="sm" className="gap-2 w-full">
+            <SignOut size={20} weight="bold" />
+            Cerrar sesión
+          </Button>
         </div>
       </div>
     </Card>
