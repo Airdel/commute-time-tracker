@@ -21,6 +21,10 @@ export default defineConfig({
     alias: {
       '@': resolve(projectRoot, 'src')
     },
-    dedupe: ['react', 'react-dom']
+    dedupe: ['react', 'react-dom', 'react/jsx-runtime']
   },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react/jsx-runtime'],
+    exclude: []
+  }
 });

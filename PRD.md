@@ -12,21 +12,17 @@ Esta es una utilidad enfocada con características distintas (registro, historia
 
 ## Deployment Strategy
 
-### Mobile Deployment (Android)
-- **Platform**: Capacitor para convertir la web app en aplicación Android nativa
-- **Distribution**: APK directo para instalación en dispositivos personales
-- **Build Process**: 
-  - Desarrollo local con Android Studio
-  - Opcionalmente GitHub Actions para CI/CD automático
+### Web Application
+- **Platform**: Navegador web moderno (Chrome, Firefox, Safari, Edge)
+- **Distribution**: Hospedado como aplicación web estándar
 - **Requirements**:
-  - Android 7.0+ (API 24+) compatible
-  - ~10MB tamaño de app estimado
-  - Permisos: ninguno especial requerido (solo almacenamiento local)
-- **Key Files**:
-  - `capacitor.config.ts` - Configuración de Capacitor
-  - `DEPLOYMENT.md` - Guía completa de despliegue
-  - `QUICK_COMMANDS.md` - Comandos rápidos de desarrollo
-  - `GITHUB_ACTIONS.md` - Automatización opcional con CI/CD
+  - Navegador moderno con soporte para ES2020+
+  - JavaScript habilitado
+  - LocalStorage habilitado para persistencia de datos
+- **Key Features**:
+  - Responsive design para móvil y desktop
+  - Datos persisten localmente en el dispositivo
+  - No requiere instalación ni permisos especiales
 
 ## Essential Features
 
