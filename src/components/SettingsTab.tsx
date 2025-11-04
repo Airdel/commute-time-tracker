@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Route, CommuteType, PredictionSettings, TransportMethod, Commute } from '@/types/commute';
-import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database, CloudArrowUp, Devices } from '@phosphor-icons/react';
+import { Plus, Pencil, Trash, MapPin, Tag, Clock, Bus, Motorcycle, Download, Upload, Database, CloudArrowUp, Devices, CheckCircle } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { AuthStatus } from '@/components/AuthStatus';
 
@@ -249,6 +249,27 @@ export function SettingsTab() {
 
   return (
     <div className="space-y-6">
+      <Card className="p-6 border-primary/50 bg-primary/5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+            <CheckCircle size={20} weight="fill" className="text-primary" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Aplicación Personal Configurada</h2>
+            <p className="text-sm text-muted-foreground">
+              Esta app está vinculada exclusivamente a tu cuenta
+            </p>
+          </div>
+        </div>
+        <div className="p-4 bg-background/50 rounded-lg">
+          <p className="text-sm text-foreground leading-relaxed">
+            ✅ Tu aplicación está configurada para uso personal. Todos los datos se sincronizan automáticamente 
+            con tu cuenta y nadie más puede acceder a ellos. Esta configuración garantiza que solo tú puedas 
+            ver y modificar tus traslados desde cualquier dispositivo donde inicies sesión.
+          </p>
+        </div>
+      </Card>
+
       <AuthStatus />
 
       <Card className="p-6 border-accent/50 bg-accent/5">
@@ -354,6 +375,74 @@ export function SettingsTab() {
           onChange={handleFileChange}
           className="hidden"
         />
+      </Card>
+
+      <Card className="p-6 border-accent/30 bg-gradient-to-br from-accent/5 to-primary/5">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/30 to-primary/30 flex items-center justify-center">
+            <Download size={20} weight="bold" className="text-primary" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Aplicación Instalable (PWA)</h2>
+            <p className="text-sm text-muted-foreground">
+              Instala la app en tu dispositivo para acceso rápido
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="p-4 bg-background/50 rounded-lg space-y-3">
+            <p className="text-sm text-foreground leading-relaxed">
+              Esta aplicación es una <strong>PWA (Progressive Web App)</strong>, lo que significa que puedes 
+              instalarla en tu dispositivo como si fuera una app nativa, sin necesidad de descargarla desde una tienda.
+            </p>
+
+            <div className="border-t border-border pt-3">
+              <h4 className="text-sm font-semibold mb-2">✨ Ventajas de instalar:</h4>
+              <div className="text-sm text-muted-foreground space-y-1.5">
+                <p>✅ Icono en tu pantalla de inicio</p>
+                <p>✅ Abre en su propia ventana (sin barra de navegador)</p>
+                <p>✅ Funciona offline sin conexión a internet</p>
+                <p>✅ Actualizaciones automáticas en segundo plano</p>
+                <p>✅ Más rápida que abrir en el navegador</p>
+              </div>
+            </div>
+
+            <div className="border-t border-border pt-3">
+              <h4 className="text-sm font-semibold mb-2">📱 Cómo instalar:</h4>
+              
+              <div className="space-y-2.5">
+                <div>
+                  <p className="text-sm font-medium text-foreground">En Android (Chrome/Edge):</p>
+                  <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside ml-2 mt-1">
+                    <li>Toca el menú (⋮) → "Instalar aplicación"</li>
+                    <li>O espera el banner que aparecerá abajo</li>
+                  </ol>
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-foreground">En iOS (Safari):</p>
+                  <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside ml-2 mt-1">
+                    <li>Toca el botón compartir (⬆️)</li>
+                    <li>Selecciona "Añadir a pantalla de inicio"</li>
+                  </ol>
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-foreground">En Desktop (Chrome/Edge):</p>
+                  <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside ml-2 mt-1">
+                    <li>Busca el icono (+) en la barra de direcciones</li>
+                    <li>Haz clic en "Instalar"</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-xs text-center text-muted-foreground pt-2">
+            💡 Una vez instalada, la app se actualizará automáticamente cuando haya nuevas versiones
+          </div>
+        </div>
       </Card>
 
       <Card className="p-6">
