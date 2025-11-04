@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { GitBranch, CheckCircle } from '@phosphor-icons/react';
-import { Card } from '@/components/ui/card';
+
+  login: 'usuario',
 
 const HARDCODED_USER = {
   login: 'usuario',
@@ -9,17 +9,17 @@ const HARDCODED_USER = {
   avatarUrl: ''
 };
 
-export function AuthStatus() {
-  return (
-    <Card className="p-4">
-      <div className="flex items-center gap-3">
-        <Avatar>
-          <AvatarImage src={HARDCODED_USER.avatarUrl} alt={HARDCODED_USER.login} />
-          <AvatarFallback>
-            {HARDCODED_USER.login.slice(0, 2).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex-1">
+          <div className="flex
+          
+              Propietario
+          </div>
+            <Git
+          </p>
+        <Badge variant="ou
+        </Badge>
+    </Card>
+}
+
           <div className="flex items-center gap-2">
             <p className="text-sm font-semibold text-foreground">@{HARDCODED_USER.login}</p>
             <Badge variant="secondary" className="text-xs">
@@ -36,6 +36,6 @@ export function AuthStatus() {
           Activa
         </Badge>
       </div>
-    </Card>
-  );
-}
+
+
+
